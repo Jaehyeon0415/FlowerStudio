@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "687525100202",
+    "firebase_url": "https://flowerstudio-8112a.firebaseio.com",
+    "project_id": "flowerstudio-8112a",
+    "storage_bucket": "flowerstudio-8112a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687525100202:android:2d9f10c7374ba573dd2ed3",
+        "android_client_info": {
+          "package_name": "com.jaehyeon.flowerstudio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687525100202-888bp27nbpldgsc4ghh3lsl4j167bji0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jaehyeon.flowerstudio",
+            "certificate_hash": "588741ca15671f8c0e02b6010e9df867b21e686e"
+          }
+        },
+        {
+          "client_id": "687525100202-3n6p2kar7rj97b8tibhjjo51j5jmul9q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsrF1-u67fvv7eLJYTws5aascTVXCNB2w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "687525100202-3n6p2kar7rj97b8tibhjjo51j5jmul9q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
