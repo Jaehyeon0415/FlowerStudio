@@ -5,11 +5,13 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_camera.*
+import android.Manifest
 
 class CameraActivity : AppCompatActivity() {
 
@@ -24,7 +26,29 @@ class CameraActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera)
 
         //button click
-        openCamera()
+        checkPermission()
+    }
+
+    private fun checkPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED ||
+                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED){
+                //permission was not enabled
+                val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                //show popup to request permission
+                requestPermissions(permission, PERMISSION_CODE)
+            }
+            else{
+                //permission already granted
+                openCamera()
+            }
+        }
+        else{
+            //system os is < marshmallow
+            openCamera()
+        }
     }
 
     private fun openCamera() {
@@ -44,7 +68,7 @@ class CameraActivity : AppCompatActivity() {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 openCamera()
             } else {
-                Toast.makeText(this, "false camera", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "허가 거부되었어요", Toast.LENGTH_SHORT).show()
             }
         }
     }
