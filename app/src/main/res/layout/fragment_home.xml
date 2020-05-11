@@ -3,12 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
+    <ImageView
+        android:id="@+id/home_image"
+        android:layout_width="300sp"
+        android:layout_height="300sp"
+        android:layout_margin="10sp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/ic_launcher_round"/>
+
+    <Button
+        android:id="@+id/btn_camera"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Home"
-        android:textSize="20sp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10sp"
+        android:text="사진 촬영"
+        android:clickable="true"
+        android:focusable="true"
+        tools:context=".CameraActivity"/>
 
 </LinearLayout>

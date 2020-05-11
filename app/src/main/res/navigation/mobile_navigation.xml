@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_camera"
-        android:name="com.jaehyeon.flowerstudio.ui.camera.CameraFragment"
-        android:label="카메라"
-        tools:layout="@layout/fragment_camera"/>
-
-    <fragment
         android:id="@+id/navigation_dictionary"
         android:name="com.jaehyeon.flowerstudio.ui.dictionary.DictionaryFragment"
         android:label="도감"
