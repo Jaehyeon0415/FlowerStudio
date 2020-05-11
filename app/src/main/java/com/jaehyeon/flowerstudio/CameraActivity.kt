@@ -1,5 +1,6 @@
 package com.jaehyeon.flowerstudio
 
+import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
@@ -11,11 +12,10 @@ import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_camera.*
-import android.Manifest
 
 class CameraActivity : AppCompatActivity() {
 
-    private val PERMISSION_CODE = 1000;
+    private val PERMISSION_CODE = 1000
     private val IMAGE_CAPTURE_CODE = 1001
     var image_uri: Uri? = null
     private val CAMERA_REQUEST_CODE = 12345
@@ -27,6 +27,7 @@ class CameraActivity : AppCompatActivity() {
 
         //button click
         checkPermission()
+
     }
 
     private fun checkPermission(){
