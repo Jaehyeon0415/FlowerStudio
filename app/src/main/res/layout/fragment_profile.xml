@@ -3,12 +3,56 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10sp"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/profile_user_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Profile"
-        android:textSize="20sp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:orientation="horizontal"
+        android:clickable="true">
+        <ImageView
+            android:id="@+id/profile_user_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="start"
+            android:src="@drawable/ic_profile_black_24dp"/>
+        <LinearLayout
+            android:id="@+id/profile_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/profile_user_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:gravity="start"
+                android:textSize="20dp"
+                android:text="USER NICKNAME"
+                android:textColor="#000"/>
+            <TextView
+                android:id="@+id/profile_user_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:gravity="start"
+                android:text="USER_ID"
+                android:textSize="16dp"
+                android:textColor="#747880"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View style="@style/Divider"/>
+
+    <Button
+        android:id="@+id/logout_google"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="로그아웃" />
 
 </LinearLayout>
