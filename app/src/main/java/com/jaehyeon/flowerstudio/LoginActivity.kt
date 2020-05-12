@@ -29,10 +29,10 @@ class LoginActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
         login_skip.setOnClickListener{
             setContentView(R.layout.activity_main)
         }
-        login_google.setOnClickListener{signIn()}
 
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -43,6 +43,7 @@ class LoginActivity: AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         firebaseAuth = FirebaseAuth.getInstance()
 
+        login_google.setOnClickListener{signIn()}
     }
 
     private fun signIn() {
@@ -59,9 +60,11 @@ class LoginActivity: AppCompatActivity() {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
+
                 if (account != null) {
                     firebaseAuthWithGoogle(account)
                 }
+
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("GoogleLogin Failed", "Google sign in failed", e)
@@ -73,13 +76,10 @@ class LoginActivity: AppCompatActivity() {
     public override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        val account = GoogleSignIn.getLastSignedInAccount(this)
+        //val account = GoogleSignIn.getLastSignedInAccount(this)
+        val currentUser = firebaseAuth.currentUser
+        updateUI(currentUser)
 
-        if(account != null) {
-            updateUI(firebaseAuth.currentUser)
-        } else {
-            updateUI(null)
-        }
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
@@ -108,6 +108,8 @@ class LoginActivity: AppCompatActivity() {
         if(user != null) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
+        }else{
+            Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_LONG).show()
         }
     }
 

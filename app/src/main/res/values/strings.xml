@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">FlowerStudio</string>
+    <string name="app_name">Flower Studio</string>
     <string name="title_home">Home</string>
     <string name="title_camera">Camera</string>
     <string name="title_dictionary">Dictionary</string>
     <string name="title_profile">Profile</string>
+
+    <!-- title name -->
+    <string name="dictionary_title">도감</string>
+    <string name="profile_title">프로필</string>
 </resources>

@@ -40,6 +40,7 @@ class CameraActivity : AppCompatActivity() {
                 val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 //show popup to request permission
                 requestPermissions(permission, PERMISSION_CODE)
+                checkPermission()
             }
             else{
                 //permission already granted
@@ -79,7 +80,12 @@ class CameraActivity : AppCompatActivity() {
         //called when image was captured from camera intent
         if (resultCode == Activity.RESULT_OK){
             //set image captured to image view
+            startActivity(Intent(this, LoadingActivity::class.java))
             image_view.setImageURI(image_uri)
+
+        }else {
+            Toast.makeText(this, "카메라가 종료됬어요!", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 }

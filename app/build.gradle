@@ -65,5 +65,7 @@ dependencies {
     // tf lite
     implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
 
+    // progress bar
+    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
 
 }

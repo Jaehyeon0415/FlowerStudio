@@ -21,6 +21,8 @@ class ProfileFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
+        view.profile_toolbar_title.text = getString(R.string.profile_title)
+
         // 유저 정보 가져오기
         val user = FirebaseAuth.getInstance().currentUser
 
@@ -33,6 +35,7 @@ class ProfileFragment : Fragment() {
                 Intent(view.context, LoginActivity::class.java)
             )
             Toast.makeText(context, "로그아웃에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+
         }
 
         return view
