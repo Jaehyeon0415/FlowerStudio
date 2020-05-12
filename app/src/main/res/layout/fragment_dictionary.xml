@@ -21,13 +21,23 @@
             android:textSize="24sp"
             android:textColor="#000"
             android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/cardDetail_dictionary_toolbar_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="현재 모은 꽃: N개"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:layout_gravity="end"/>
     </androidx.appcompat.widget.Toolbar>
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Dictionary"
-        android:textSize="20sp"/>
-
+        android:clipToPadding="false"
+        android:padding="5dp"
+        tools:listitem="@layout/item_card"
+        android:layout_marginBottom="55dp"/>
 
 </LinearLayout>
