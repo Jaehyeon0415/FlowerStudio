@@ -29,7 +29,9 @@ class LoginActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        login_skip.setOnClickListener{
+            setContentView(R.layout.activity_main)
+        }
         login_google.setOnClickListener{signIn()}
 
         // Configure Google Sign In
