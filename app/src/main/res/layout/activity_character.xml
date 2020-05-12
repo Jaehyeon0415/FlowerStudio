@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".CharacterActivity"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/ch_image_view"
+        android:src="@drawable/ic_camera_black_24dp"
+        android:scaleType="fitXY"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/rounded_corner_white"/>
+
+    <TextView
+        android:id="@+id/ch_flower_name"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="꽃이름"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:padding="3dp"
+        android:gravity="center"
+        android:background="@drawable/rounded_corner"/>
+
+    <View style="@style/Divider"
+        android:layout_marginVertical="15dp"
+        android:layout_marginHorizontal="40dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:padding="5dp">
+
+        <Button
+            android:id="@+id/btn_chCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/rounded_corner"
+            android:text="취소"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:clickable="true"
+            android:focusable="true" />
+        <Button
+            android:id="@+id/btn_character_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:text="도감에 저장"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:clickable="true"
+            android:focusable="true"/>
+    </LinearLayout>
+</LinearLayout>

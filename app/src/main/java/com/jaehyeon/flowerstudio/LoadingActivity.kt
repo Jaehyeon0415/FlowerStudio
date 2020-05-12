@@ -1,7 +1,9 @@
 package com.jaehyeon.flowerstudio
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.daimajia.numberprogressbar.NumberProgressBar
 import com.daimajia.numberprogressbar.OnProgressBarListener
@@ -16,6 +18,11 @@ class LoadingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loading)
 
+        val check = intent.getStringExtra("character")
+        val loadingText = findViewById<TextView>(R.id.loading_text)
+        if(check == "character"){
+            loadingText.text = getString(R.string.loading_text2)
+        }
         val npb = findViewById<NumberProgressBar>(R.id.number_progress_bar);
         val timer = Timer()
         npb.setOnProgressBarListener(OnProgressBarListener { current, max ->
@@ -31,7 +38,12 @@ class LoadingActivity : AppCompatActivity() {
         }, 5, 15)
 
         Handler().postDelayed({
-            finish()
+            if(check == "character"){
+                startActivity(Intent(this, CharacterActivity::class.java))
+                finish()
+            }else{
+                finish()
+            }
         }, LOADING_TIME_OUT)
     }
 

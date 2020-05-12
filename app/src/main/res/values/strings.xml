@@ -8,4 +8,8 @@
     <!-- title name -->
     <string name="dictionary_title">도감</string>
     <string name="profile_title">프로필</string>
+
+    <!--  loading text  -->
+    <string name="loading_text1">과연 이 꽃의 이름은?!</string>
+    <string name="loading_text2">과연 어떤 캐릭터가 나올까요?!</string>
 </resources>

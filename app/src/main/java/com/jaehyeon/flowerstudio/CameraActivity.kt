@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_camera.*
@@ -27,6 +28,21 @@ class CameraActivity : AppCompatActivity() {
 
         //button click
         checkPermission()
+
+        // 재촬영 버튼 이벤트
+        val btn_recapture = findViewById<Button>(R.id.btn_recapture)
+        btn_recapture.setOnClickListener {
+            openCamera()
+        }
+
+        // 캐릭터화 버튼 이벤트
+        val btn_character = findViewById<Button>(R.id.btn_character)
+        btn_character.setOnClickListener {
+            startActivity(Intent(this, LoadingActivity::class.java)
+                .putExtra("character", "character")
+            )
+            finish()
+        }
 
     }
 
