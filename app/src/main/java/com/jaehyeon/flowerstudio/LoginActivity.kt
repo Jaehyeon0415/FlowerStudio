@@ -39,7 +39,6 @@ class LoginActivity: AppCompatActivity() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
-
         firebaseAuth = FirebaseAuth.getInstance()
 
     }
@@ -64,7 +63,7 @@ class LoginActivity: AppCompatActivity() {
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("GoogleLogin Failed", "Google sign in failed", e)
-
+                Toast.makeText(this, "로그인에 실패하였어요! 다시 시도해보세요!", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -89,13 +88,13 @@ class LoginActivity: AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("LoginSuccess", "signInWithCredential:success")
+                    //Log.d("LoginSuccess", "signInWithCredential:success")
                     val user = firebaseAuth.currentUser
                     updateUI(user)
                     Toast.makeText(this, "로그인에 성공하셨어요~", Toast.LENGTH_SHORT).show()
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("LoginFailed", "signInWithCredential:failure", task.exception)
+                    //Log.w("LoginFailed", "signInWithCredential:failure", task.exception)
                     Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_LONG).show()
                     updateUI(null)
                 }
@@ -109,6 +108,7 @@ class LoginActivity: AppCompatActivity() {
             finish()
         }
     }
+
     // 로그인화면에서 뒤로가기 막기
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         return if (keyCode == KeyEvent.KEYCODE_BACK) {

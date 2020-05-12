@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "687525100202-k5dr97eh5uardfdu2kbjb662fmudfc59.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jaehyeon.flowerstudio",
+            "certificate_hash": "0409d5aae92eafa7a1d7077f6672d914e7f22948"
+          }
+        },
+        {
           "client_id": "687525100202-888bp27nbpldgsc4ghh3lsl4j167bji0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
