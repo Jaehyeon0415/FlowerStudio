@@ -76,10 +76,13 @@ class LoginActivity: AppCompatActivity() {
     public override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        //val account = GoogleSignIn.getLastSignedInAccount(this)
-        val currentUser = firebaseAuth.currentUser
-        updateUI(currentUser)
-
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        if(account != null){
+            val currentUser = firebaseAuth.currentUser
+            updateUI(currentUser)
+        }else{
+            updateUI(null)
+        }
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {

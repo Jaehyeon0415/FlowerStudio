@@ -18,6 +18,9 @@ class LoadingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loading)
 
+        val fName = intent.getStringExtra("flowerName")
+        val fContext = intent.getStringExtra("flowerContext")
+
         val check = intent.getStringExtra("character")
         val loadingText = findViewById<TextView>(R.id.loading_text)
         if(check == "character"){
@@ -39,7 +42,10 @@ class LoadingActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             if(check == "character"){
-                startActivity(Intent(this, CharacterActivity::class.java))
+                startActivity(Intent(this, CharacterActivity::class.java)
+                    .putExtra("flowerName", fName)
+                    .putExtra("flowerContext", fContext)
+                )
                 finish()
             }else{
                 finish()

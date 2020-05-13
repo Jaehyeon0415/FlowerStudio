@@ -40,6 +40,8 @@ class CameraActivity : AppCompatActivity() {
         btn_character.setOnClickListener {
             startActivity(Intent(this, LoadingActivity::class.java)
                 .putExtra("character", "character")
+                .putExtra("flowerName", flower_name.text)
+                .putExtra("flowerContext", flower_context.text)
             )
             finish()
         }

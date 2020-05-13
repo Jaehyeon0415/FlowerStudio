@@ -1,8 +1,9 @@
 package com.jaehyeon.flowerstudio.model
 
 data class Card (
-    var title: String = ""
-//    var uid: String = "",
-//    var id: String = ""
+    var id: String = "",
+    var uid: String = "",
+    var title: String = "",
+    var context: String = ""
     //val image: Int = 0
 )
