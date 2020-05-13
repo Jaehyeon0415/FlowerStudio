@@ -1,4 +1,4 @@
-package com.jaehyeon.flowerstudio
+package com.jaehyeon.flowerstudio.ui
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,9 +7,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.FirebaseDatabase
+import com.jaehyeon.flowerstudio.R
+import com.jaehyeon.flowerstudio.adapter.CardAdapter
 import kotlinx.android.synthetic.main.activity_card_detail.*
+import kotlinx.android.synthetic.main.fragment_dictionary.*
 
 class CardDetailActivity : AppCompatActivity() {
+
+    private var database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val myRef = database.reference.child("card")
+
+    var cardId: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +37,7 @@ class CardDetailActivity : AppCompatActivity() {
         title.text = getString(R.string.dictionary_title)
 
         cardDetail_flower_name.text = intent.getStringExtra("cardTitle")
+        cardId = intent.getStringExtra("cardId")
 
     }
 
@@ -43,6 +54,7 @@ class CardDetailActivity : AppCompatActivity() {
             true
         }
         R.id.delete -> {
+            delete()
             Toast.makeText(this, "삭제되었어요!", Toast.LENGTH_SHORT).show()
             finish()
             true
@@ -50,5 +62,10 @@ class CardDetailActivity : AppCompatActivity() {
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun delete(){
+        myRef.child(cardId.toString()).ref.removeValue()
+        Toast.makeText(this, "삭제되었어요!", Toast.LENGTH_SHORT).show()
     }
 }

@@ -19,8 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".CardDetailActivity"></activity>
-        <activity android:name=".CharacterActivity" />
+        <activity android:name=".ui.CardDetailActivity"></activity>
+        <activity android:name=".ui.CharacterActivity" />
         <activity android:name=".LoadingActivity" />
         <activity
             android:name=".SplashActivity"

@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jaehyeon.flowerstudio.CardDetailActivity
+import com.jaehyeon.flowerstudio.ui.CardDetailActivity
 import com.jaehyeon.flowerstudio.R
 import com.jaehyeon.flowerstudio.model.Card
 import kotlinx.android.synthetic.main.item_card.view.*
@@ -42,10 +42,11 @@ class CardAdapter(val context: Context, private val cardList: ArrayList<Card>):
                     Intent(itemView.context,
                         CardDetailActivity::class.java)
                         .putExtra("cardTitle", card.title)
+                        .putExtra("cardContext", card.context)
+                        .putExtra("cardId", card.id)
 //                        .putExtra("cardWriter", card.writer)
 //                        .putExtra("cardPrice", card.price)
 //                        //.putExtra("cardImage", image)
-//                        .putExtra("cardContext", card.context)
 //                        .putExtra("cardCategory", card.category)
 //                        .putExtra("cID", card.id)
                 )

@@ -1,12 +1,12 @@
-package com.jaehyeon.flowerstudio
+package com.jaehyeon.flowerstudio.ui
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import com.jaehyeon.flowerstudio.R
 
 class CharacterActivity : AppCompatActivity() {
 
@@ -19,7 +19,6 @@ class CharacterActivity : AppCompatActivity() {
 
 //        val bytes: ByteArray? = intent.getByteArrayExtra("cardImage")
 //        val image_uri = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
-
 //        ch_image_view.setImageBitmap(image_uri)
 
         val fName = intent.getStringExtra("flowerName")
@@ -45,7 +44,6 @@ class CharacterActivity : AppCompatActivity() {
         val uid = user?.uid
         val myRef = database.child("card").push()
         val key = myRef.key
-        val userRef = database.child("users").child(uid.toString())
 
         myRef.child("uid").setValue(uid.toString())
         myRef.child("id").setValue(key)

@@ -1,6 +1,7 @@
 package com.jaehyeon.flowerstudio.ui.dictionary
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_dictionary.view.cardDetail_dictio
 class DictionaryFragment : Fragment() {
 
     private var database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private var myRef = database.reference.child("card")
+    private var myRef = database.reference
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -38,30 +39,30 @@ class DictionaryFragment : Fragment() {
             cardList
         )
 
-//        // 툴바 타이틀 설정
-//        dictionary_toolbar_title.text = getString(R.string.dictionary_title)
-
-        // 도감 카드 초기화
-        cardList.clear()
+        // 툴바 타이틀 설정
+        view.dictionary_toolbar_title.text = getString(R.string.dictionary_title)
 
         // 도감 카드리스트 도출
-        myRef.addValueEventListener(object : ValueEventListener{
+        myRef.child("card").addValueEventListener(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
+                // 도감 카드 초기화
+                cardList.clear()
+                var number = 0
                 for(item in p0.children){
                     val value = item.getValue(Card::class.java)
                     if(value != null){
                         cardList.add(value)
+                        number++
                     }
-                    (view.recyclerView.adapter as CardAdapter).notifyDataSetChanged()
                 }
+                (view.recyclerView.adapter as CardAdapter).notifyDataSetChanged()
+                view.cardDetail_dictionary_toolbar_count.text = "현재 모은 꽃:   ${number}개"
             }
-
             override fun onCancelled(p0: DatabaseError) {}
         })
 
 
         view.recyclerView.adapter = mCardAdapter
-
         val numberOfColumns = 3
         val lm = GridLayoutManager(view.context, numberOfColumns)
         view.recyclerView.layoutManager = lm

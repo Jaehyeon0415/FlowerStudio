@@ -3,10 +3,13 @@ package com.jaehyeon.flowerstudio
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.KeyEvent
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.daimajia.numberprogressbar.NumberProgressBar
 import com.daimajia.numberprogressbar.OnProgressBarListener
+import com.jaehyeon.flowerstudio.ui.CharacterActivity
 import java.util.*
 
 
@@ -51,6 +54,13 @@ class LoadingActivity : AppCompatActivity() {
                 finish()
             }
         }, LOADING_TIME_OUT)
+    }
+
+    // 로딩화면에서 뒤로가기 막기
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        return if (keyCode == KeyEvent.KEYCODE_BACK) {
+            false
+        } else super.onKeyDown(keyCode, event)
     }
 
 }

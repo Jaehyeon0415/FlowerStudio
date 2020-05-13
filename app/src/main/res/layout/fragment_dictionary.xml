@@ -18,17 +18,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TITLE"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textColor="#000"
             android:layout_gravity="center"/>
         <TextView
             android:id="@+id/cardDetail_dictionary_toolbar_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="현재 모은 꽃: N개"
+            android:text="현재 모은 꽃:   N개"
             android:textSize="16sp"
             android:textColor="#000"
-            android:layout_gravity="end"/>
+            android:layout_gravity="end"
+            android:layout_marginEnd="12dp"/>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
