@@ -24,12 +24,12 @@ class CardAdapter(val context: Context, private val cardList: ArrayList<Card>):
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(cardList[position], context)
+        holder.bind(cardList[position])
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind (card: Card, context: Context) {
+        fun bind (card: Card) {
             //itemView.
             itemView.setOnClickListener {
 //                // image 넘겨줌
