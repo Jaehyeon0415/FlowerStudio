@@ -1,6 +1,8 @@
 package com.jaehyeon.flowerstudio.ui.profile
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +39,9 @@ class ProfileFragment : Fragment() {
             Toast.makeText(context, "로그아웃에 성공하였습니다.", Toast.LENGTH_SHORT).show()
 
         }
+
+        val bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.flower)
+        view.profile_user_image.setImageBitmap(bitmap)
 
         return view
     }
