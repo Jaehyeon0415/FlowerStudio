@@ -3,6 +3,7 @@ package com.jaehyeon.flowerstudio
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.KeyEvent
 import android.widget.TextView
 import android.widget.Toast
@@ -23,12 +24,15 @@ class LoadingActivity : AppCompatActivity() {
 
         val fName = intent.getStringExtra("flowerName")
         val fContext = intent.getStringExtra("flowerContext")
+        val fImage = intent?.getStringExtra("flowerImg")
 
         val check = intent.getStringExtra("character")
         val loadingText = findViewById<TextView>(R.id.loading_text)
+
         if(check == "character"){
             loadingText.text = getString(R.string.loading_text2)
         }
+
         val npb = findViewById<NumberProgressBar>(R.id.number_progress_bar);
         val timer = Timer()
         npb.setOnProgressBarListener(OnProgressBarListener { current, max ->
@@ -48,6 +52,7 @@ class LoadingActivity : AppCompatActivity() {
                 startActivity(Intent(this, CharacterActivity::class.java)
                     .putExtra("flowerName", fName)
                     .putExtra("flowerContext", fContext)
+                    .putExtra("flowerImg", fImage)
                 )
                 finish()
             }else{

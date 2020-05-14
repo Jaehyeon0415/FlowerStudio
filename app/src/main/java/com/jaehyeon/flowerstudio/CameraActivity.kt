@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -42,6 +43,7 @@ class CameraActivity : AppCompatActivity() {
                 .putExtra("character", "character")
                 .putExtra("flowerName", flower_name.text)
                 .putExtra("flowerContext", flower_context.text)
+                .putExtra("flowerImg", image_uri.toString())
             )
             finish()
         }
@@ -100,6 +102,7 @@ class CameraActivity : AppCompatActivity() {
             //set image captured to image view
             startActivity(Intent(this, LoadingActivity::class.java))
             image_view.setImageURI(image_uri)
+            Log.w("imageuri", image_uri.toString())
 
         }else {
             Toast.makeText(this, "카메라가 종료됬어요!", Toast.LENGTH_SHORT).show()
