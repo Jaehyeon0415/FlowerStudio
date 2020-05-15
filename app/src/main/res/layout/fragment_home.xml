@@ -43,6 +43,6 @@
         android:text="사진 촬영"
         android:clickable="true"
         android:focusable="true"
-        tools:context=".CameraActivity"/>
+        tools:context=".CameraResultActivity"/>
 
 </LinearLayout>

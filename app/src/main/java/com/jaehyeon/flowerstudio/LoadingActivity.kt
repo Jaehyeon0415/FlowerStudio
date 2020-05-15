@@ -24,7 +24,7 @@ class LoadingActivity : AppCompatActivity() {
 
         val fName = intent.getStringExtra("flowerName")
         val fContext = intent.getStringExtra("flowerContext")
-        val fImage = intent?.getStringExtra("flowerImg")
+        val fImage = intent.getByteArrayExtra("flowerImg")
 
         val check = intent.getStringExtra("character")
         val loadingText = findViewById<TextView>(R.id.loading_text)
@@ -56,6 +56,11 @@ class LoadingActivity : AppCompatActivity() {
                 )
                 finish()
             }else{
+                startActivity(Intent(this, CameraResultActivity::class.java)
+                    .putExtra("flowerName", fName)
+                    .putExtra("flowerContext", fContext)
+                    .putExtra("flowerImg", fImage)
+                )
                 finish()
             }
         }, LOADING_TIME_OUT)

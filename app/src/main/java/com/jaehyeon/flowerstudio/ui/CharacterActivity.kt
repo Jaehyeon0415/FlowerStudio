@@ -1,7 +1,9 @@
 package com.jaehyeon.flowerstudio.ui
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
@@ -19,17 +21,13 @@ class CharacterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character)
 
-//        val bytes: ByteArray? = intent.getByteArrayExtra("cardImage")
-//        val image_uri = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
-//        ch_image_view.setImageBitmap(image_uri)
-
         val fName = intent.getStringExtra("flowerName")
         val fContext = intent.getStringExtra("flowerContext")
-        val fImage = intent?.getStringExtra("flowerImg")
+        val bytes: ByteArray? = intent.getByteArrayExtra("flowerImg")
+        val cameraImage = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
+        val ch_image_view = findViewById<ImageView>(R.id.ch_image_view)
 
-        if (fImage != null) {
-            ch_image_view.setImageURI(fImage.toUri())
-        }
+        ch_image_view.setImageBitmap(cameraImage)
 
         val btnChCancel = findViewById<Button>(R.id.btn_chCancel)
         btnChCancel.setOnClickListener {
