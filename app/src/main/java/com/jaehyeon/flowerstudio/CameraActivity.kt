@@ -30,6 +30,7 @@ class CameraActivity : AppCompatActivity() {
 
         btn_record.setOnClickListener{
             cameraView.captureImage()
+            Toast.makeText(this@CameraActivity, "촬영되었어요!", Toast.LENGTH_SHORT).show()
         }
 
         Toast.makeText(this, "가운데 버튼을 눌러 꽃을 촬영하세요", Toast.LENGTH_SHORT).show()
@@ -41,14 +42,19 @@ class CameraActivity : AppCompatActivity() {
             override fun onError(cameraKitError: CameraKitError) {}
             override fun onImage(cameraKitImage: CameraKitImage) {
                 var bitmap: Bitmap = cameraKitImage.bitmap
+                val bitmap2: Bitmap = Bitmap.createScaledBitmap(bitmap, 299, 299, false)
                 bitmap = Bitmap.createScaledBitmap(bitmap, 600, 800, false)
+
                 val stream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+
                 val fImage = stream.toByteArray()
-                val intent =
-                    Intent(this@CameraActivity, LoadingActivity::class.java)
-                intent.putExtra("flowerImg", fImage)
+                val intent = Intent(this@CameraActivity, LoadingActivity::class.java)
+                intent
+                    .putExtra("flowerImg", fImage)
+                    .putExtra("classify", bitmap2)
                 startActivity(intent)
+                Log.d("123123 camera", "success!!")
                 finish()
             }
             override fun onVideo(cameraKitVideo: CameraKitVideo) {}
@@ -59,7 +65,6 @@ class CameraActivity : AppCompatActivity() {
         super.onResume()
         cameraView.start()
     }
-
 
     override fun onPause() {
         cameraView.stop()
