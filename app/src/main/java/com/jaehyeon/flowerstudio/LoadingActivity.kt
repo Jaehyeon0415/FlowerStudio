@@ -1,6 +1,5 @@
 package com.jaehyeon.flowerstudio
 
-import android.R.attr.bitmap
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -78,7 +77,7 @@ class LoadingActivity : AppCompatActivity() {
                 finish()
             }else{
                 startActivity(Intent(this, CameraResultActivity::class.java)
-                    .putExtra("flowerName", results?.get(0).toString())
+                    .putExtra("flowerName", results!![0].title.toString())
                     .putExtra("flowerContext", fContext)
                     .putExtra("flowerImg", fImage)
                 )
@@ -99,7 +98,7 @@ class LoadingActivity : AppCompatActivity() {
                     INPUT_SIZE
                 )
                 results = classifier.recognizeImage(classifyByte!!)
-                Log.d("123123 results", results!![0].toString())
+                Log.d("123123 results", results!![0].title.toString())
             } catch (e: Exception) {
                 throw RuntimeException("Error initializing TensorFlow!", e)
             }

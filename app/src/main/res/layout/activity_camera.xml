@@ -15,7 +15,9 @@
         android:keepScreenOn="true"
         app:ckFocus="continuous"
         app:ckPermissions="picture"
-        android:layout_marginBottom="100dp">
+        android:layout_marginBottom="100dp"
+        app:ckFacing="back"
+        app:ckDoubleTapToToggleFacing="true">
 
         <com.wonderkiln.camerakit.SurfaceViewContainer
             android:layout_width="wrap_content"

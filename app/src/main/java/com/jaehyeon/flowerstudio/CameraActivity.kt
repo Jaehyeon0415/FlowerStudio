@@ -4,11 +4,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
+import android.view.View.FOCUSABLE_AUTO
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.wonderkiln.camerakit.*
+import com.wonderkiln.camerakit.CameraKit.Constants.FACING_BACK
 import java.io.ByteArrayOutputStream
 
 
@@ -27,7 +29,7 @@ class CameraActivity : AppCompatActivity() {
         text_camera_how = findViewById(R.id.text_camera_how)
 
         setCamera()
-
+        cameraView.setFocus(CameraKit.Constants.FOCUS_TAP)
         btn_capture.setOnClickListener{
             cameraView.captureImage()
             runOnUiThread { text_camera_how.text = "촬영중 입니다. 잠시만 기다리세요." }
@@ -43,10 +45,8 @@ class CameraActivity : AppCompatActivity() {
             override fun onImage(cameraKitImage: CameraKitImage) {
                 Thread(Runnable {
                     if(cameraKitImage.bitmap != null) {
-                        //val bitmap2: Bitmap = Bitmap.createScaledBitmap(bitmap, 299, 299, false)
-                        val bitmap = Bitmap.createScaledBitmap(cameraKitImage.bitmap, 600, 800, false)
+                        val bitmap = Bitmap.createScaledBitmap(cameraKitImage.bitmap, 700, 800, false)
                         val stream = ByteArrayOutputStream()
-
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
 
                         val fImage = stream.toByteArray()
