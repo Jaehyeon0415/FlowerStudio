@@ -31,7 +31,7 @@ class CameraResultActivity : AppCompatActivity() {
         // 사진 저장 버튼 이벤트
         val btn_save = findViewById<Button>(R.id.btn_save)
         btn_save.setOnClickListener {
-            val uri = cameraImage?.let { it1 -> saveImage(it1, "flower") }
+            cameraImage?.let { it1 -> saveImage(it1, "flower") }
             Toast.makeText(this, "저장됬어요!", Toast.LENGTH_SHORT).show()
         }
 
@@ -56,7 +56,7 @@ class CameraResultActivity : AppCompatActivity() {
     }
 
     private fun saveImage(image: Bitmap, title: String) {
-        val savedImageURL = MediaStore.Images.Media.insertImage(
+        MediaStore.Images.Media.insertImage(
             contentResolver,
             image,
             title,

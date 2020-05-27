@@ -15,7 +15,7 @@ import java.io.ByteArrayOutputStream
 class CameraActivity : AppCompatActivity() {
 
     private lateinit var cameraView: CameraView
-    private lateinit var btn_record: ImageView
+    private lateinit var btn_capture: ImageView
     private lateinit var text_camera_how: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,17 +23,17 @@ class CameraActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera)
 
         cameraView = findViewById(R.id.camera)
-        btn_record = findViewById(R.id.btn_record)
+        btn_capture = findViewById(R.id.btn_capture)
         text_camera_how = findViewById(R.id.text_camera_how)
 
         setCamera()
 
-        btn_record.setOnClickListener{
+        btn_capture.setOnClickListener{
             cameraView.captureImage()
-            Toast.makeText(this@CameraActivity, "촬영되었어요!", Toast.LENGTH_SHORT).show()
+            runOnUiThread { text_camera_how.text = "촬영중 입니다. 잠시만 기다리세요." }
         }
 
-        Toast.makeText(this, "가운데 버튼을 눌러 꽃을 촬영하세요", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(this, "가운데 버튼을 눌러 꽃을 촬영하세요", Toast.LENGTH_SHORT).show()
     }
 
     private fun setCamera(){
@@ -41,21 +41,24 @@ class CameraActivity : AppCompatActivity() {
             override fun onEvent(cameraKitEvent: CameraKitEvent) {}
             override fun onError(cameraKitError: CameraKitError) {}
             override fun onImage(cameraKitImage: CameraKitImage) {
-                var bitmap: Bitmap = cameraKitImage.bitmap
-                val bitmap2: Bitmap = Bitmap.createScaledBitmap(bitmap, 299, 299, false)
-                bitmap = Bitmap.createScaledBitmap(bitmap, 600, 800, false)
+                Thread(Runnable {
+                    if(cameraKitImage.bitmap != null) {
+                        //val bitmap2: Bitmap = Bitmap.createScaledBitmap(bitmap, 299, 299, false)
+                        val bitmap = Bitmap.createScaledBitmap(cameraKitImage.bitmap, 600, 800, false)
+                        val stream = ByteArrayOutputStream()
 
-                val stream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
 
-                val fImage = stream.toByteArray()
-                val intent = Intent(this@CameraActivity, LoadingActivity::class.java)
-                intent
-                    .putExtra("flowerImg", fImage)
-                    .putExtra("classify", bitmap2)
-                startActivity(intent)
-                Log.d("123123 camera", "success!!")
-                finish()
+                        val fImage = stream.toByteArray()
+                        val intent = Intent(this@CameraActivity, LoadingActivity::class.java)
+                        intent
+                            .putExtra("flowerImg", fImage)
+
+                        startActivity(intent)
+
+                        finish()
+                    }
+                }).run()
             }
             override fun onVideo(cameraKitVideo: CameraKitVideo) {}
         })

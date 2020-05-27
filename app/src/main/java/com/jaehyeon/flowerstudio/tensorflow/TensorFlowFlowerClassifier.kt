@@ -3,6 +3,7 @@ package com.jaehyeon.flowerstudio.tensorflow
 import android.annotation.SuppressLint
 import android.content.res.AssetManager
 import android.graphics.Bitmap
+import com.jaehyeon.flowerstudio.tensorflow.Classifier.Recognition
 import org.tensorflow.lite.Interpreter
 import java.io.BufferedReader
 import java.io.FileInputStream
@@ -14,19 +15,15 @@ import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 import java.util.*
 
-class TensorFlowFlowerClassifier private constructor(
-    assetManager: AssetManager,
-    MODEL_PATH: String,
-    LABEL_PATH: String,
-    INPUT_SIZE: Int
-) : Classifier {
-    /*tensorflow*/
-    private var interpreter: Interpreter?
-    private val inputSize: Int
-    private val labelList: List<String>
-    override fun recognizeImage(bitmap: Bitmap): List<Classifier.Recognition> {
+
+class TensorFlowFlowerClassifier private constructor() : Classifier {
+    private var interpreter: Interpreter? = null
+    private var inputSize = 299
+    private var labelList: List<String>? = null
+    override fun recognizeImage(bitmap: Bitmap): List<Recognition> {
         val byteBuffer = convertBitmapToByteBuffer(bitmap)
-        val result = Array(1) { FloatArray(labelList.size) }
+        val result =
+            Array(1) { FloatArray(labelList!!.size) }
         interpreter!!.run(byteBuffer, result)
         return getSortedResult(result)
     }
@@ -39,9 +36,9 @@ class TensorFlowFlowerClassifier private constructor(
     @Throws(IOException::class)
     private fun loadModelFile(
         assetManager: AssetManager,
-        MODEL_PATH: String
+        modelPath: String
     ): MappedByteBuffer {
-        val fileDescriptor = assetManager.openFd(MODEL_PATH)
+        val fileDescriptor = assetManager.openFd("model.tflite")
         val inputStream =
             FileInputStream(fileDescriptor.fileDescriptor)
         val fileChannel = inputStream.channel
@@ -57,15 +54,13 @@ class TensorFlowFlowerClassifier private constructor(
     @Throws(IOException::class)
     private fun loadLabelList(
         assetManager: AssetManager,
-        LABEL_PATH: String
+        labelPath: String
     ): List<String> {
-        val labelList: MutableList<String> =
-            ArrayList()
-        val reader =
-            BufferedReader(InputStreamReader(assetManager.open(LABEL_PATH)))
-        var line: String
+        val labelList: MutableList<String> = ArrayList()
+        val reader = BufferedReader(InputStreamReader(assetManager.open("labels.txt")))
+        var line: String?
         while (reader.readLine().also { line = it } != null) {
-            labelList.add(line)
+            labelList.add(line!!)
         }
         reader.close()
         return labelList
@@ -89,6 +84,7 @@ class TensorFlowFlowerClassifier private constructor(
         for (i in 0 until inputSize) {
             for (j in 0 until inputSize) {
                 val `val` = intValues[pixel++]
+
                 byteBuffer.putFloat(((`val` shr 16 and 0xFF) - 128) / 128.0f)
                 byteBuffer.putFloat(((`val` shr 8 and 0xFF) - 128) / 128.0f)
                 byteBuffer.putFloat(((`val` and 0xFF) - 128) / 128.0f)
@@ -98,30 +94,27 @@ class TensorFlowFlowerClassifier private constructor(
     }
 
     @SuppressLint("DefaultLocale")
-    private fun getSortedResult(labelProbArray: Array<FloatArray>): List<Classifier.Recognition> {
-        val pq: PriorityQueue<Classifier.Recognition> = PriorityQueue(
+    private fun getSortedResult(labelProbArray: Array<FloatArray>): List<Recognition> {
+        val pq: PriorityQueue<Recognition> = PriorityQueue(
             MAX_RESULTS,
-            Comparator { lhs: Classifier.Recognition, rhs: Classifier.Recognition ->
-                java.lang.Float.compare(
-                    rhs.confidence,
-                    lhs.confidence
-                )
+            Comparator { lhs: Recognition, rhs: Recognition ->
+                return@Comparator rhs.confidence.compareTo(lhs.confidence)
             })
-        for (i in labelList.indices) {
+        for (i in labelList!!.indices) {
+
             val confidence = labelProbArray[0][i]
             if (confidence > THRESHOLD) {
                 pq.add(
-                    Classifier.Recognition(
+                    Recognition(
                         "" + i,
-                        if (labelList.size > i) labelList[i] else "unknown",
+                        if (labelList!!.size > i) labelList!![i] else "unknown",
                         confidence
                     )
                 )
             }
         }
-        val recognitions: ArrayList<Classifier.Recognition> = ArrayList<Classifier.Recognition>()
-        val recognitionsSize =
-            pq.size.coerceAtMost(MAX_RESULTS)
+        val recognitions: ArrayList<Recognition> = ArrayList()
+        val recognitionsSize = pq.size.coerceAtMost(MAX_RESULTS)
         for (i in 0 until recognitionsSize) {
             recognitions.add(pq.poll()!!)
         }
@@ -129,53 +122,24 @@ class TensorFlowFlowerClassifier private constructor(
     }
 
     companion object {
-        private const val TAG = "TENSORFLOW IMAGE CLASSIFIER"
-        private const val MAX_RESULTS = 3 // Max cont of result
-        private const val BATCH_SIZE = 1 // batch size : Google Inception V3 is 1
-        private const val PIXEL_SIZE = 3 // pixel size : Google Inception V3 is 3
-        private const val THRESHOLD = 0.1f //
+        private const val MAX_RESULTS = 3
+        private const val BATCH_SIZE = 1
+        private const val PIXEL_SIZE = 3
+        private const val THRESHOLD = 0.1f
         private const val NumBytesPerChannel = 4 // a 32bit float value requires 4 bytes
-        private lateinit var tensorFlowClassifier: TensorFlowFlowerClassifier
-
-
-//        private const val MODEL_PATH = "model.tflite"
-//        private const val LABEL_PATH = "labels.txt"
-//        private const val INPUT_SIZE = 299
-
-        @Throws(IOException::class)
-        fun createFlowerClassifier(
-            assetManager: AssetManager,
-            MODEL_PATH: String,
-            LABEL_PATH: String,
-            INPUT_SIZE: Int
-        ) {
-            tensorFlowClassifier =
-                create(
-                    assetManager,
-                    MODEL_PATH,
-                    LABEL_PATH,
-                    INPUT_SIZE
-                )
-        }
 
         @Throws(IOException::class)
         fun create(
             assetManager: AssetManager,
-            MODEL_PATH: String,
-            LABEL_PATH: String,
-            INPUT_SIZE: Int
-        ): TensorFlowFlowerClassifier {
-            return TensorFlowFlowerClassifier(assetManager, MODEL_PATH, LABEL_PATH, INPUT_SIZE)
+            modelPath: String,
+            labelPath: String,
+            inputSize: Int
+        ): Classifier {
+            val classifier = TensorFlowFlowerClassifier()
+            classifier.interpreter = Interpreter(classifier.loadModelFile(assetManager, modelPath))
+            classifier.labelList = classifier.loadLabelList(assetManager, labelPath)
+            classifier.inputSize = inputSize
+            return classifier
         }
-
-    }
-
-    init {
-        interpreter = Interpreter(
-            loadModelFile(assetManager, MODEL_PATH),
-            Interpreter.Options()
-        )
-        labelList = loadLabelList(assetManager, LABEL_PATH)
-        this.inputSize = INPUT_SIZE
     }
 }

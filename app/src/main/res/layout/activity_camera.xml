@@ -42,7 +42,7 @@
         android:elevation="10dp">
 
         <ImageView
-            android:id="@+id/btn_record"
+            android:id="@+id/btn_capture"
             android:layout_gravity="bottom|center"
             android:layout_width="77dp"
             android:layout_height="77dp"
