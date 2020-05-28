@@ -33,8 +33,8 @@
         <item name="progress_text_size">15sp</item>
         <item name="progress_text_color">@color/pink</item>
 
-        <item name="progress_reached_bar_height">4.5dp</item>
-        <item name="progress_unreached_bar_height">2.5dp</item>
+        <item name="progress_reached_bar_height">7.5dp</item>
+        <item name="progress_unreached_bar_height">5.5dp</item>
     </style>
 
 </resources>
