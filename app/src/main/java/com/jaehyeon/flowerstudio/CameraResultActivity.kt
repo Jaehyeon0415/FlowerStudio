@@ -5,11 +5,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.jaehyeon.flowerstudio.controller.ConvertLabel
 import kotlinx.android.synthetic.main.activity_camera_result.*
 
 class CameraResultActivity : AppCompatActivity() {
@@ -19,8 +21,10 @@ class CameraResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera_result)
 
         val bytes: ByteArray? = intent.getByteArrayExtra("flowerImg")
-        val fName = intent.getStringExtra("flowerName")
+        var fName: String? = intent.getStringExtra("flowerName")
 
+        fName = ConvertLabel.ConvertKor(fName!!)
+        Log.d("123123 converlabel", fName)
         val cameraImage = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
         val image_view = findViewById<ImageView>(R.id.image_view)
         val flower_name = findViewById<TextView>(R.id.flower_name)

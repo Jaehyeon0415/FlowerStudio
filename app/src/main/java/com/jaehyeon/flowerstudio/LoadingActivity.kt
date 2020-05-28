@@ -3,9 +3,9 @@ package com.jaehyeon.flowerstudio
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.ThumbnailUtils
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.KeyEvent
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +22,7 @@ import java.util.concurrent.Executors
 
 class LoadingActivity : AppCompatActivity() {
 
-    private val LOADING_TIME_OUT:Long = 3000 // 3 sec
+    private val LOADING_TIME_OUT:Long = 5000 // 5 sec
     private var classifyByte: Bitmap? = null
     private var results: List<Recognition>? = null
 
@@ -36,12 +36,13 @@ class LoadingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loading)
 
-        val fName = intent.getStringExtra("flowerName")
+        // val fName = intent.getStringExtra("flowerName")
         val fContext = intent.getStringExtra("flowerContext")
         val fImage: ByteArray? = intent.getByteArrayExtra("flowerImg")
 
         val image: Bitmap? = fImage?.size?.let { BitmapFactory.decodeByteArray(fImage, 0, it) }
-
+//        val dimension: Int = image!!.width.coerceAtMost(image.height)
+//        val crop = ThumbnailUtils.extractThumbnail(image, dimension, dimension)
         classifyByte = image?.let { Bitmap.createScaledBitmap(it, 299, 299, false) }
 
         val check = intent.getStringExtra("character")
@@ -63,13 +64,13 @@ class LoadingActivity : AppCompatActivity() {
             override fun run() {
                 runOnUiThread { npb.incrementProgressBy(1) }
             }
-        }, 5, 15)
+        }, 25, 35)
 
         // Activity TimeOut
         Handler().postDelayed({
             if(check == "character"){
                 startActivity(Intent(this, CharacterActivity::class.java)
-                    .putExtra("flowerName", fName)
+                    .putExtra("flowerName", results!![0].title.toString())
                     .putExtra("flowerContext", fContext)
                     .putExtra("flowerImg", fImage)
                     // .putExtra("result", results.toString())
@@ -98,7 +99,6 @@ class LoadingActivity : AppCompatActivity() {
                     INPUT_SIZE
                 )
                 results = classifier.recognizeImage(classifyByte!!)
-                Log.d("123123 results", results!![0].title.toString())
             } catch (e: Exception) {
                 throw RuntimeException("Error initializing TensorFlow!", e)
             }

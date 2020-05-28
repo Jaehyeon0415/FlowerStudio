@@ -31,11 +31,10 @@ class CameraActivity : AppCompatActivity() {
         setCamera()
         cameraView.setFocus(CameraKit.Constants.FOCUS_TAP)
         btn_capture.setOnClickListener{
+//            cameraView.setFocus(CameraKit.Constants.FOCUS_CONTINUOUS)
             cameraView.captureImage()
             runOnUiThread { text_camera_how.text = "촬영중 입니다. 잠시만 기다리세요." }
         }
-
-        // Toast.makeText(this, "가운데 버튼을 눌러 꽃을 촬영하세요", Toast.LENGTH_SHORT).show()
     }
 
     private fun setCamera(){
@@ -44,8 +43,9 @@ class CameraActivity : AppCompatActivity() {
             override fun onError(cameraKitError: CameraKitError) {}
             override fun onImage(cameraKitImage: CameraKitImage) {
                 Thread(Runnable {
+                    cameraView.setFocus(CameraKit.Constants.FOCUS_CONTINUOUS)
                     if(cameraKitImage.bitmap != null) {
-                        val bitmap = Bitmap.createScaledBitmap(cameraKitImage.bitmap, 700, 800, false)
+                        val bitmap = Bitmap.createScaledBitmap(cameraKitImage.bitmap, 800, 600, false)
                         val stream = ByteArrayOutputStream()
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
 
@@ -55,7 +55,6 @@ class CameraActivity : AppCompatActivity() {
                             .putExtra("flowerImg", fImage)
 
                         startActivity(intent)
-
                         finish()
                     }
                 }).run()
