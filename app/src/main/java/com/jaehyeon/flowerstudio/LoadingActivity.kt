@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.KeyEvent
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +24,8 @@ class LoadingActivity : AppCompatActivity() {
     private val LOADING_TIME_OUT:Long = 5000 // 5 sec
     private var classifyByte: Bitmap? = null
     private var results: List<Recognition>? = null
+    private var classifier: Classifier? = null
+    private var label: String? = null
 
     private val MODEL_PATH = "model.tflite"
     private val LABEL_PATH = "labels.txt"
@@ -40,10 +41,6 @@ class LoadingActivity : AppCompatActivity() {
         val fImage: ByteArray? = intent.getByteArrayExtra("flowerImg")
         val fName = intent.getStringExtra("flowerName")
         val camera = intent.getStringExtra("check")
-
-        // 이미지 decode 후 Inception_v3에 맞게 리사이즈(299x299)
-        val image: Bitmap? = fImage?.size?.let { BitmapFactory.decodeByteArray(fImage, 0, it) }
-        classifyByte = image?.let { Bitmap.createScaledBitmap(it, 299, 299, false) }
 
         // 캐릭터화 로딩 확인
         val check = intent.getStringExtra("character")
@@ -77,16 +74,38 @@ class LoadingActivity : AppCompatActivity() {
                 finish()
             }else{
                 startActivity(Intent(this, CameraResultActivity::class.java)
-                    .putExtra("flowerName", results?.get(0)?.title.toString())
-                    .putExtra("flowerContext", fContext)
+                    .putExtra("flowerName", label)
+                    //.putExtra("flowerContext", context)
                     .putExtra("flowerImg", fImage)
                 )
                 finish()
             }
         }, LOADING_TIME_OUT)
 
-        if(camera == "camera"){initTensorFlowAndLoadModel()}
+        if(camera == "camera"){
+            initTensorFlowAndLoadModel()
+            // 이미지 decode 후 Inception_v3에 맞게 리사이즈(299x299)
+            val image: Bitmap? = fImage?.size?.let { BitmapFactory.decodeByteArray(fImage, 0, it) }
+            classifyByte = image?.let { Bitmap.createScaledBitmap(it, 299, 299, false) }
+            results = classifier?.recognizeImage(classifyByte!!)
+            label = results?.get(0)?.title.toString()
+        }
     }
+
+//    private class TaskClassifier : AsyncTask<String, Void, String>() {
+//        override fun onPreExecute() {
+//            super.onPreExecute()
+//        }
+//
+//        override fun doInBackground(vararg label: String): String {
+//            return SearchAPI.search(label.toString())
+//        }
+//
+//        override fun onPostExecute(result: String) {
+//
+//            super.onPostExecute(result)
+//        }
+//    }
 
     /**
      * 텐서플로우 초기화, 사진 넣어줘서 결과 도출함
@@ -94,14 +113,12 @@ class LoadingActivity : AppCompatActivity() {
     private fun initTensorFlowAndLoadModel() {
         executor.execute(Runnable {
             try {
-                val classifier: Classifier = TensorFlowFlowerClassifier.create(
+                classifier = TensorFlowFlowerClassifier.create(
                     assets,
                     MODEL_PATH,
                     LABEL_PATH,
                     INPUT_SIZE
                 )
-                results = classifier.recognizeImage(classifyByte!!)
-                Log.d("123123 results", results?.get(0)?.title.toString())
             } catch (e: Exception) {
                 throw RuntimeException("Error initializing TensorFlow!", e)
             }

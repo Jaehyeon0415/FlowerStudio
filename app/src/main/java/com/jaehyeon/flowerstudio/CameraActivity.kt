@@ -27,6 +27,7 @@ class CameraActivity : AppCompatActivity() {
         cameraView = findViewById(R.id.camera)
         btn_capture = findViewById(R.id.btn_capture)
         text_camera_how = findViewById(R.id.text_camera_how)
+
         checkPermission()
         setCamera()
 
@@ -45,11 +46,11 @@ class CameraActivity : AppCompatActivity() {
                 Thread(Runnable {
                     cameraView.setFocus(CameraKit.Constants.FOCUS_CONTINUOUS)
                     if(cameraKitImage.bitmap != null) {
-                        val bitmap = Bitmap.createScaledBitmap(cameraKitImage.bitmap, 800, 600, false)
+                        val bitmap = Bitmap.createScaledBitmap(cameraKitImage.bitmap, 299, 299, false)
                         val stream = ByteArrayOutputStream()
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-
                         val fImage = stream.toByteArray()
+
                         val intent = Intent(this@CameraActivity, LoadingActivity::class.java)
                         intent
                             .putExtra("flowerImg", fImage)
@@ -64,6 +65,9 @@ class CameraActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     *  카메라, 사진 권한 확인
+     * */
     private fun checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // 마시멜로우 버전과 같거나 이상이라면
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) !== PackageManager.PERMISSION_GRANTED

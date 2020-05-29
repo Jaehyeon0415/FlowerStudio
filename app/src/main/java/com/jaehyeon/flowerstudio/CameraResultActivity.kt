@@ -3,9 +3,8 @@ package com.jaehyeon.flowerstudio
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
@@ -14,14 +13,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.jaehyeon.flowerstudio.controller.ConvertLabel
-import kotlinx.android.synthetic.main.activity_camera_result.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import com.jaehyeon.flowerstudio.controller.SearchAPI
 import java.util.*
 
 class CameraResultActivity : AppCompatActivity() {
+
+    private var searchResult: String? = null
+    private var context: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,28 +27,27 @@ class CameraResultActivity : AppCompatActivity() {
 
         val image_view = findViewById<ImageView>(R.id.image_view)
         val flower_name = findViewById<TextView>(R.id.flower_name)
+        val flower_context = findViewById<TextView>(R.id.flower_context)
 
         // Intent 정보 받기
-        var fName: String? = intent.getStringExtra("flowerName")
-        fName = if(fName != null){
-            ConvertLabel.ConvertKor(fName)
-        } else {
-            "꽃이 아닙니다!"
-        }
+        val fName: String? = intent.getStringExtra("flowerName")
+        val fLabel: String = ConvertLabel.ConvertKor(fName!!)
+        if(fLabel == "unknown"){Toast.makeText(this, "꽃 인식이 실패되었어요!", Toast.LENGTH_SHORT).show()}
+        flower_name.text = fLabel
 
         val bytes: ByteArray? = intent.getByteArrayExtra("flowerImg")
         val cameraImage = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
-
+        val bImage = Bitmap.createScaledBitmap(cameraImage!!, 1440, 2560, false)
         // 사진 설정
-        image_view.setImageBitmap(cameraImage)
+        image_view.setImageBitmap(bImage)
 
-        // 꽃 이름 설정
-        flower_name.text = fName
+        context = TaskClassifier().execute(fLabel).get()
+        flower_context.text = context
 
         // 사진 저장 버튼 이벤트
         val btn_save = findViewById<Button>(R.id.btn_save)
         btn_save.setOnClickListener {
-            cameraImage?.let { it1 -> saveImage(it1, fName) }
+            saveImage(bImage, fName)
             Toast.makeText(this, "저장됬어요!", Toast.LENGTH_SHORT).show()
         }
 
@@ -67,10 +64,27 @@ class CameraResultActivity : AppCompatActivity() {
             startActivity(Intent(this, LoadingActivity::class.java)
                 .putExtra("character", "character")
                 .putExtra("flowerName", fName)
-                .putExtra("flowerContext", flower_context.text)
+                .putExtra("flowerContext", searchResult)
                 .putExtra("flowerImg", bytes)
             )
             finish()
+        }
+    }
+
+    private class TaskClassifier : AsyncTask<String, Void, String>() {
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+
+        override fun doInBackground(vararg label: String): String {
+            val test = SearchAPI.search(label)
+            Log.d("123123 test!!", test)
+            return test
+        }
+
+        override fun onPostExecute(result: String) {
+            Log.d("123123 ddddd", result)
+            super.onPostExecute(result)
         }
     }
 
@@ -79,7 +93,7 @@ class CameraResultActivity : AppCompatActivity() {
         MediaStore.Images.Media.insertImage(
             contentResolver,
             image,
-            title,
+            UUID.randomUUID().toString(),
             "Image of $title"
         )
     }
