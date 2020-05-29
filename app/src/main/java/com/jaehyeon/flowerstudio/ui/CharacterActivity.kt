@@ -21,7 +21,7 @@ class CharacterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character)
-        
+
         // Intent 값 받아오기
         val fName = intent.getStringExtra("flowerName")
         val fContext = intent.getStringExtra("flowerContext")
