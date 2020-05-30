@@ -38,6 +38,8 @@ class CardDetailActivity : AppCompatActivity() {
 
         cardDetail_flower_name.text = intent.getStringExtra("cardTitle")
         cardId = intent.getStringExtra("cardId")
+        cardDetail_flower_context.text = intent.getStringExtra("cardContext")
+
 
     }
 

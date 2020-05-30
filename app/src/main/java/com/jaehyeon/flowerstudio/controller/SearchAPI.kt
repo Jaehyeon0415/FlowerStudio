@@ -13,19 +13,17 @@ object SearchAPI {
     @JvmStatic
     fun search(name: Array<out String>): String {
         val clientId = "L5EZjK5rwxf4lPzH5pC2" //애플리케이션 클라이언트 아이디값"
-        val clientSecret = "_fhNankAuW" //애플리케이션 클라이언트 시크릿값"
+        val clientSecret = "_fhNankAuW"  //애플리케이션 클라이언트 시크릿값"
         var text: String? = null
         text = try {
             URLEncoder.encode("장미", "UTF-8")
         } catch (e: UnsupportedEncodingException) {
             throw RuntimeException("검색어 인코딩 실패", e)
         }
-        val apiURL =
-            "https://openapi.naver.com/v1/search/encyc?query=$text" // json 결과
-        //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
+        val apiURL = "https://openapi.naver.com/v1/search/encyc?query=$text" // json 결과
         val requestHeaders: MutableMap<String, String> = HashMap()
-        requestHeaders["X-Naver-Client-Id"] = clientId
-        requestHeaders["X-Naver-Client-Secret"] = clientSecret
+        requestHeaders["X-Naver-Client-Id"] = clientId.toString()
+        requestHeaders["X-Naver-Client-Secret"] = clientSecret.toString()
         val responseBody = get(apiURL, requestHeaders)
         println(responseBody)
 

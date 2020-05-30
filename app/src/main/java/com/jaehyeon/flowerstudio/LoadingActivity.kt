@@ -3,6 +3,7 @@ package com.jaehyeon.flowerstudio
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.view.KeyEvent
@@ -25,7 +26,7 @@ class LoadingActivity : AppCompatActivity() {
     private var classifyByte: Bitmap? = null
     private var results: List<Recognition>? = null
     private var classifier: Classifier? = null
-    private var label: String? = null
+    // private var label: String? = null
 
     private val MODEL_PATH = "model.tflite"
     private val LABEL_PATH = "labels.txt"
@@ -74,7 +75,7 @@ class LoadingActivity : AppCompatActivity() {
                 finish()
             }else{
                 startActivity(Intent(this, CameraResultActivity::class.java)
-                    .putExtra("flowerName", label)
+                    .putExtra("flowerName", results?.get(0)?.title.toString())
                     //.putExtra("flowerContext", context)
                     .putExtra("flowerImg", fImage)
                 )
@@ -88,29 +89,13 @@ class LoadingActivity : AppCompatActivity() {
             val image: Bitmap? = fImage?.size?.let { BitmapFactory.decodeByteArray(fImage, 0, it) }
             classifyByte = image?.let { Bitmap.createScaledBitmap(it, 299, 299, false) }
             results = classifier?.recognizeImage(classifyByte!!)
-            label = results?.get(0)?.title.toString()
         }
     }
-
-//    private class TaskClassifier : AsyncTask<String, Void, String>() {
-//        override fun onPreExecute() {
-//            super.onPreExecute()
-//        }
-//
-//        override fun doInBackground(vararg label: String): String {
-//            return SearchAPI.search(label.toString())
-//        }
-//
-//        override fun onPostExecute(result: String) {
-//
-//            super.onPostExecute(result)
-//        }
-//    }
 
     /**
      * 텐서플로우 초기화, 사진 넣어줘서 결과 도출함
      * */
-    private fun initTensorFlowAndLoadModel() {
+     private fun initTensorFlowAndLoadModel() {
         executor.execute(Runnable {
             try {
                 classifier = TensorFlowFlowerClassifier.create(

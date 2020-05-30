@@ -18,7 +18,6 @@ import java.util.*
 
 class CameraResultActivity : AppCompatActivity() {
 
-    private var searchResult: String? = null
     private var context: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +31,7 @@ class CameraResultActivity : AppCompatActivity() {
         // Intent 정보 받기
         val fName: String? = intent.getStringExtra("flowerName")
         val fLabel: String = ConvertLabel.ConvertKor(fName!!)
-        if(fLabel == "unknown"){Toast.makeText(this, "꽃 인식이 실패되었어요!", Toast.LENGTH_SHORT).show()}
+        if(fLabel == "unknown"){Toast.makeText(this, "꽃 인식 실패했어요!", Toast.LENGTH_SHORT).show()}
         flower_name.text = fLabel
 
         val bytes: ByteArray? = intent.getByteArrayExtra("flowerImg")
@@ -44,13 +43,6 @@ class CameraResultActivity : AppCompatActivity() {
         context = TaskClassifier().execute(fLabel).get()
         flower_context.text = context
 
-        // 사진 저장 버튼 이벤트
-        val btn_save = findViewById<Button>(R.id.btn_save)
-        btn_save.setOnClickListener {
-            saveImage(bImage, fName)
-            Toast.makeText(this, "저장됬어요!", Toast.LENGTH_SHORT).show()
-        }
-
         // 취소 버튼 이벤트
         val btn_close = findViewById<Button>(R.id.btn_close)
         btn_close.setOnClickListener {
@@ -58,13 +50,20 @@ class CameraResultActivity : AppCompatActivity() {
             finish()
         }
 
+        // 사진 저장 버튼 이벤트
+        val btn_save = findViewById<Button>(R.id.btn_save)
+        btn_save.setOnClickListener {
+            saveImage(bImage)
+            Toast.makeText(this, "저장됬어요!", Toast.LENGTH_SHORT).show()
+        }
+
         // 캐릭터화 버튼 이벤트
         val btn_character = findViewById<Button>(R.id.btn_character)
         btn_character.setOnClickListener {
             startActivity(Intent(this, LoadingActivity::class.java)
                 .putExtra("character", "character")
-                .putExtra("flowerName", fName)
-                .putExtra("flowerContext", searchResult)
+                .putExtra("flowerName", fLabel)
+                .putExtra("flowerContext", context)
                 .putExtra("flowerImg", bytes)
             )
             finish()
@@ -89,7 +88,7 @@ class CameraResultActivity : AppCompatActivity() {
     }
 
     // 사진 기기에 저장
-    private fun saveImage(image: Bitmap, title: String) {
+    private fun saveImage(image: Bitmap) {
         MediaStore.Images.Media.insertImage(
             contentResolver,
             image,

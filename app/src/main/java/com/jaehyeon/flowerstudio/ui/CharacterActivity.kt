@@ -7,11 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.jaehyeon.flowerstudio.R
-import kotlinx.android.synthetic.main.activity_character.*
 
 class CharacterActivity : AppCompatActivity() {
 
