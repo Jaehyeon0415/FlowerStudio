@@ -22,7 +22,6 @@
         android:id="@+id/flower_name"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="꽃이름"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -45,8 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:padding="10dp"
             android:gravity="start"
-            android:text="꽃 설명"
             android:textSize="18sp"/>
     </ScrollView>
 

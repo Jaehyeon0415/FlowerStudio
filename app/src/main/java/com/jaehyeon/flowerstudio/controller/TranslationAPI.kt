@@ -3,46 +3,62 @@ package com.jaehyeon.flowerstudio.controller
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
+import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 import java.net.URLEncoder
 
-object SearchAPI {
-    @JvmStatic
-    fun search(name: Array<out String>): JSONObject {
-        val clientId = "L5EZjK5rwxf4lPzH5pC2" //애플리케이션 클라이언트 아이디값"
-        val clientSecret = "_fhNankAuW"  //애플리케이션 클라이언트 시크릿값"
-        var text: String? = null
-        text = try {
-            URLEncoder.encode("해바라기", "UTF-8")
-        } catch (e: UnsupportedEncodingException) {
-            throw RuntimeException("검색어 인코딩 실패", e)
-        }
-        val apiURL = "https://openapi.naver.com/v1/search/encyc?query=$text" // json 결과
-        val requestHeaders: MutableMap<String, String> = HashMap()
-        requestHeaders["X-Naver-Client-Id"] = clientId.toString()
-        requestHeaders["X-Naver-Client-Secret"] = clientSecret.toString()
-        val responseBody = get(apiURL, requestHeaders)
-        val obj = JSONArray(JSONObject(responseBody).getString("items")).getJSONObject(0)
 
-        return obj
+// 네이버 기계번역 (Papago SMT) API 예제
+object TranslationAPI {
+    @JvmStatic
+    fun translation(context: String) : String {
+        val clientId = "L5EZjK5rwxf4lPzH5pC2" //애플리케이션 클라이언트 아이디값";
+        val clientSecret = "_fhNankAuW" //애플리케이션 클라이언트 시크릿값";
+        val apiURL = "https://openapi.naver.com/v1/papago/n2mt"
+        val text: String
+        text = try {
+            URLEncoder.encode(context, "UTF-8")
+        } catch (e: UnsupportedEncodingException) {
+            throw RuntimeException("인코딩 실패", e)
+        }
+        val requestHeaders: MutableMap<String, String> = HashMap()
+        requestHeaders["X-Naver-Client-Id"] = clientId
+        requestHeaders["X-Naver-Client-Secret"] = clientSecret
+        val responseBody = post(apiURL, requestHeaders, text)
+        println(responseBody)
+        return try{
+            val obj = JSONObject(JSONObject(JSONObject(responseBody).getString("message")).getString("result")).getString("translatedText")
+            obj
+        } catch (e: Exception) {
+            println(e)
+            "null"
+        }
     }
 
-    private operator fun get(
+    private fun post(
         apiUrl: String,
-        requestHeaders: Map<String, String>
+        requestHeaders: Map<String, String>,
+        text: String
     ): String {
         val con = connect(apiUrl)
+        val postParams =
+            "source=en&target=ko&text=$text" //원본언어: 한국어 (ko) -> 목적언어: 영어 (en)
         return try {
-            con.requestMethod = "GET"
+            con.requestMethod = "POST"
             for ((key, value) in requestHeaders) {
                 con.setRequestProperty(key, value)
             }
+            con.doOutput = true
+            DataOutputStream(con.outputStream).use { wr ->
+                wr.write(postParams.toByteArray())
+                wr.flush()
+            }
             val responseCode = con.responseCode
-            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
+            if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 응답
                 readBody(con.inputStream)
-            } else { // 에러 발생
+            } else {  // 에러 응답
                 readBody(con.errorStream)
             }
         } catch (e: IOException) {

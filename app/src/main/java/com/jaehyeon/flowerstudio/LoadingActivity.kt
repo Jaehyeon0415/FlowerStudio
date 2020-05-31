@@ -3,7 +3,6 @@ package com.jaehyeon.flowerstudio
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.view.KeyEvent
@@ -26,7 +25,6 @@ class LoadingActivity : AppCompatActivity() {
     private var classifyByte: Bitmap? = null
     private var results: List<Recognition>? = null
     private var classifier: Classifier? = null
-    // private var label: String? = null
 
     private val MODEL_PATH = "model.tflite"
     private val LABEL_PATH = "labels.txt"

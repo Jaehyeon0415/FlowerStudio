@@ -1,24 +1,20 @@
 package com.jaehyeon.flowerstudio.controller
 
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.widget.ImageView
-
 object ConvertLabel {
 
-    fun ConvertKor(fName: String): String {
+    fun convertKor(fName: String): String {
 
         when(fName) {
             "pink primrose" -> return "분홍달맞이꽃"
             "hard-leaved pocket orchid" -> return "경엽두란"
-            "canterbury bells" -> return "메디움초롱꽃"
+            "canterbury bells" -> return "종꽃"
             "sweet pea" -> return "스위트피"
             "english marigold" -> return "금잔화"
             "tiger lily" -> return "참나리"
-            "moon orchid" -> return "팔레놉시스 아마빌리스"
+            "moon orchid" -> return "팔레놉시스"
             "bird of paradise" -> return "극락조"
-            "monkshood" -> return "투구꽃속"
-            "globe thistle" -> return "절굿대속"
+            "monkshood" -> return "투구꽃"
+            "globe thistle" -> return "절굿대"
             "snapdragon" -> return "금어초속"
             "colt's foot" -> return "관동화"
             "king protea" -> return "용왕꽃"
@@ -26,7 +22,7 @@ object ConvertLabel {
             "yellow iris" -> return "노랑꽃창포"
             "globe-flower" -> return "금매화속"
             "purple coneflower" -> return "자주루드베키아"
-            "peruvian lily" -> return "알스트로에메리아속"
+            "peruvian lily" -> return "알스트로에메리아"
             "balloon flower" -> return "도라지"
             "giant white arum lily" -> return "칼라 릴리"
             "fire lily" -> return "불꽃나리"
