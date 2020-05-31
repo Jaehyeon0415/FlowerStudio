@@ -6,21 +6,17 @@ import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.jaehyeon.flowerstudio.controller.ConvertLabel
-import com.jaehyeon.flowerstudio.controller.SearchAPI
+import com.jaehyeon.flowerstudio.controller.ReLabel
+import com.jaehyeon.flowerstudio.controller.ConvertKo
 import com.jaehyeon.flowerstudio.controller.TranslationAPI
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
-import org.w3c.dom.Document
-import org.w3c.dom.Element
 import java.util.*
-import kotlin.collections.ArrayList
 
 class CameraResultActivity : AppCompatActivity() {
 
@@ -39,7 +35,9 @@ class CameraResultActivity : AppCompatActivity() {
 
         // Intent 정보 받기
         val fName: String? = intent.getStringExtra("flowerName")
-        val fLabel: String = ConvertLabel.convertKor(fName!!)
+
+        val search_text: String = ReLabel.relabel(fName!!)
+        val fLabel: String = ConvertKo.convertKor(fName!!)
         if(fLabel == "unknown"){
             Toast.makeText(this, "꽃 인식 실패했어요!", Toast.LENGTH_SHORT).show()
             btn_character.setBackgroundColor(getColor(R.color.gray))
@@ -48,10 +46,10 @@ class CameraResultActivity : AppCompatActivity() {
 //            flower_context.text = context
         }
 
-        val test: String = "Azalea"
-        context = TaskClassifier().execute(test).get()
-        flower_context.text = context
+        // 위키피디아 검색
+        context = TaskClassifier().execute(search_text).get()
 
+        flower_context.text = context
         flower_name.text = fLabel
 
         val bytes: ByteArray? = intent.getByteArrayExtra("flowerImg")
@@ -96,8 +94,8 @@ class CameraResultActivity : AppCompatActivity() {
             // val link = test.getString("title")   // 검색된 링크를 받음
             //Log.d("123123 label", label[0])
             val link_text = label[0]
-            val link2 = "https://en.m.wikipedia.org/wiki/$link_text"
-            val doc: org.jsoup.nodes.Document = Jsoup.connect(link2).get()   // 링크로 크롤링
+            val link = "https://en.m.wikipedia.org/wiki/$link_text"
+            val doc: org.jsoup.nodes.Document = Jsoup.connect(link).get()   // 링크로 크롤링
             // println(doc)
             // val element:Elements = doc.select("div[class=size_ct_v2]").select("p")
             val element:Elements = doc.select("div[class=mw-parser-output]").select("p")
