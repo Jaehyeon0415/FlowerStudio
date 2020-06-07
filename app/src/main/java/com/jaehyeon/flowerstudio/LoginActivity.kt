@@ -30,9 +30,9 @@ class LoginActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        login_skip.setOnClickListener{
-            setContentView(R.layout.activity_main)
-        }
+//        login_skip.setOnClickListener{
+//            setContentView(R.layout.activity_main)
+//        }
 
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

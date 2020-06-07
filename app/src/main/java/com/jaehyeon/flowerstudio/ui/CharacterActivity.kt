@@ -28,6 +28,8 @@ class CharacterActivity : AppCompatActivity() {
         val fName = intent.getStringExtra("flowerName")
         val fContext = intent.getStringExtra("flowerContext")
         val bytes: ByteArray? = intent.getByteArrayExtra("flowerImg")
+        val url = intent.getStringExtra("url")
+
         val cameraImage = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
         val ch_image_view = findViewById<ImageView>(R.id.ch_image_view)
         val ch_flower_name = findViewById<TextView>(R.id.ch_flower_name)
@@ -47,7 +49,7 @@ class CharacterActivity : AppCompatActivity() {
         val btnCharacterSave = findViewById<Button>(R.id.btn_character_save)
         btnCharacterSave.setOnClickListener {
             // 도감 카드 추가
-            addCard(fName!!, fContext!!, bytes!!)
+            addCard(fName!!, fContext!!, bytes!!, url!!)
             Toast.makeText(this, "저장되었어요!", Toast.LENGTH_SHORT).show()
             finish()
         }
@@ -56,7 +58,7 @@ class CharacterActivity : AppCompatActivity() {
     /**
      *  생성된 카드 Firebase에 저장
      **/
-    private fun addCard(fName: String, fContext: String, fImage: ByteArray) {
+    private fun addCard(fName: String, fContext: String, fImage: ByteArray, url: String) {
         val uid = user?.uid
         val myRef = database.child("card").push()
         val key = myRef.key
@@ -66,6 +68,7 @@ class CharacterActivity : AppCompatActivity() {
         myRef.child("title").setValue(fName)
         myRef.child("context").setValue(fContext)
         myRef.child("image").setValue(key)
+        myRef.child("url").setValue(url)
 
         val uploadTask = storage.child(uid.toString()).child(key!!).putBytes(fImage)
         uploadTask.addOnFailureListener {

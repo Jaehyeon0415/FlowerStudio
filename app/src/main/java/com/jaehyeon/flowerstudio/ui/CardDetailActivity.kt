@@ -1,5 +1,7 @@
 package com.jaehyeon.flowerstudio.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -43,6 +45,7 @@ class CardDetailActivity : AppCompatActivity() {
         cardDetail_flower_name.text = intent.getStringExtra("cardTitle")
         cardId = intent.getStringExtra("cardId")
         cardDetail_flower_context.text = intent.getStringExtra("cardContext")
+        val search_text = intent.getStringExtra("url")
 
         // 이미지 로드
         val image = findViewById<ImageView>(R.id.cardDetail_image_view)
@@ -60,6 +63,14 @@ class CardDetailActivity : AppCompatActivity() {
                 Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
             }
         }
+
+        // 결과 Url 웹으로 연결
+        val cardDetail_btn_result = findViewById<TextView>(R.id.cardDetail_btn_result)
+        cardDetail_btn_result.setOnClickListener {
+            val urlLink = Intent(Intent.ACTION_VIEW, Uri.parse("https://en.m.wikipedia.org/wiki/$search_text"))
+            startActivity(urlLink)
+        }
+
     }
 
     // 툴바 옵션 생성

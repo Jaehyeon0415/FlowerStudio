@@ -3,6 +3,7 @@ package com.jaehyeon.flowerstudio
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,8 +12,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.jaehyeon.flowerstudio.controller.ReLabel
 import com.jaehyeon.flowerstudio.controller.ConvertKo
+import com.jaehyeon.flowerstudio.controller.ReLabel
 import com.jaehyeon.flowerstudio.controller.TranslationAPI
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
@@ -38,18 +39,17 @@ class CameraResultActivity : AppCompatActivity() {
 
         val search_text: String = ReLabel.relabel(fName!!)
         val fLabel: String = ConvertKo.convertKor(fName!!)
+
         if(fLabel == "unknown"){
             Toast.makeText(this, "꽃 인식 실패했어요!", Toast.LENGTH_SHORT).show()
-            btn_character.setBackgroundColor(getColor(R.color.gray))
+            // btn_character.setBackgroundColor(getColor(R.color.gray))
+            flower_context.text = context
         } else {
-//            context = TaskClassifier().execute(fLabel).get()
-//            flower_context.text = context
+            // 위키피디아 검색
+            context = TaskClassifier().execute(search_text).get()
+            flower_context.text = context
         }
 
-        // 위키피디아 검색
-        context = TaskClassifier().execute("Antirrhinum").get()
-
-        flower_context.text = context
         flower_name.text = fLabel
 
         val bytes: ByteArray? = intent.getByteArrayExtra("flowerImg")
@@ -69,6 +69,17 @@ class CameraResultActivity : AppCompatActivity() {
             Toast.makeText(this, "저장됬어요!", Toast.LENGTH_SHORT).show()
         }
 
+        // 결과 Url 웹으로 연결
+        val btn_result = findViewById<TextView>(R.id.btn_result)
+        btn_result.setOnClickListener {
+            if(fLabel == "unknown"){
+                Toast.makeText(this, "꽃 이미지로 변환을 시도해 주세요!", Toast.LENGTH_SHORT).show()
+            } else {
+                val urlLink = Intent(Intent.ACTION_VIEW, Uri.parse("https://en.m.wikipedia.org/wiki/$search_text")) // "https://en.m.wikipedia.org/wiki/$search_text"
+                startActivity(urlLink)
+            }
+        }
+
         // 캐릭터화 버튼 이벤트
         btn_character.setOnClickListener {
 //            if(fLabel == "unknown"){
@@ -79,6 +90,7 @@ class CameraResultActivity : AppCompatActivity() {
                     .putExtra("flowerName", fLabel)
                     .putExtra("flowerContext", context)
                     .putExtra("flowerImg", bytes)
+                    .putExtra("url", search_text)
                 )
                 finish()
 //            }
@@ -90,19 +102,14 @@ class CameraResultActivity : AppCompatActivity() {
             super.onPreExecute()
         }
         override fun doInBackground(vararg label: String): String {
-            // val test = SearchAPI.search(label)  // 네이버 백과사전 API 검색
-            // val link = test.getString("title")   // 검색된 링크를 받음
-            //Log.d("123123 label", label[0])
+
             val link_text = label[0]
             val link = "https://en.m.wikipedia.org/wiki/$link_text"
             val doc: org.jsoup.nodes.Document = Jsoup.connect(link).get()   // 링크로 크롤링
 
-            // println(doc)
-            // val element:Elements = doc.select("div[class=size_ct_v2]").select("p")
-
             val element:Elements = doc.select("div[class=mw-parser-output]").select("p")
             val ie1: ListIterator<org.jsoup.nodes.Element> = element.select("p").listIterator()
-            var ts: String = "null"
+            var ts = "null"
             while(ts == "null"){
                 ts = TranslationAPI.translation(ie1.next().text())
             }

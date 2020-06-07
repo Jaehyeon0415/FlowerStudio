@@ -2,7 +2,6 @@ package com.jaehyeon.flowerstudio.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,19 +41,20 @@ class CardAdapter(val context: Context, private val cardList: ArrayList<Card>):
 
             //itemView.
             itemView.setOnClickListener {
-
                 itemView.context.startActivity(
-                    Intent(itemView.context,
-                        CardDetailActivity::class.java)
+                    Intent(itemView.context, CardDetailActivity::class.java)
                         .putExtra("cardTitle", card.title)
                         .putExtra("cardContext", card.context)
                         .putExtra("cardId", card.id)
                         .putExtra("uid", card.uid)
                         .putExtra("cardImage", pathRef.toString())
+                        .putExtra("url", card.url)
                 )
             }
 
             itemView.item_text.text = card.title
+
+            // 이미지 다운
             pathRef.downloadUrl.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Glide 이용하여 이미지뷰에 로딩

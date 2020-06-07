@@ -16,10 +16,10 @@ object ReLabel {
             "monkshood" -> return "Aconitum" // 확인
             "globe thistle" -> return "Echinops" // 확인
             "snapdragon" -> return "Antirrhinum" // 확인
-            "colt's foot" -> return "관동화" // 검색결과 없음
-            "king protea" -> return "Protea_cynaroides" // Protea_cynaroides
-            "spear thistle" -> return "Cirsium_vulgare" // Cirsium_vulgare
-            "yellow iris" -> return "Iris_pseudacorus" // Iris_pseudacorus
+            "colt's foot" -> return "Petasites" // 확인
+            "king protea" -> return "Protea_cynaroides" // 확인
+            "spear thistle" -> return "Cirsium_vulgare" // 확인
+            "yellow iris" -> return "Iris_pseudacorus" // 확인
             "globe-flower" -> return "Trollius" // Trollius
             "purple coneflower" -> return "Echinacea_purpurea" // Echinacea_purpurea
             "peruvian lily" -> return "Alstroemeria" // Alstroemeria

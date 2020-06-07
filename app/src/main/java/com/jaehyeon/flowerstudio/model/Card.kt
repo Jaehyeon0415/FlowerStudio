@@ -5,5 +5,6 @@ data class Card (
     var uid: String = "",
     var title: String = "",
     var context: String = "",
-    val image: String = ""
+    val image: String = "",
+    val url: String = ""
 )

@@ -40,6 +40,7 @@ class LoadingActivity : AppCompatActivity() {
         val fImage: ByteArray? = intent.getByteArrayExtra("flowerImg")
         val fName = intent.getStringExtra("flowerName")
         val camera = intent.getStringExtra("check")
+        val url = intent.getStringExtra("url")
 
         // 캐릭터화 로딩 확인
         val check = intent.getStringExtra("character")
@@ -69,6 +70,7 @@ class LoadingActivity : AppCompatActivity() {
                     .putExtra("flowerName", fName)
                     .putExtra("flowerContext", fContext)
                     .putExtra("flowerImg", fImage)
+                    .putExtra("url", url)
                 )
                 finish()
             }else{

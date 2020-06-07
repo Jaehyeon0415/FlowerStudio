@@ -35,7 +35,7 @@
         android:layout_marginHorizontal="40dp"/>
 
     <ScrollView
-        android:layout_width="300dp"
+        android:layout_width="320dp"
         android:layout_height="230dp"
         android:layout_gravity="center"
         android:background="@drawable/rounded_corner_line">
@@ -59,7 +59,7 @@
 
         <Button
             android:id="@+id/btn_close"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner"
             android:text="취소"
@@ -69,9 +69,9 @@
             android:focusable="true" />
         <Button
             android:id="@+id/btn_save"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
+            android:layout_marginHorizontal="10dp"
             android:background="@drawable/rounded_corner"
             android:text="저장"
             android:textColor="@color/white"
@@ -79,16 +79,25 @@
             android:clickable="true"
             android:focusable="true" />
         <Button
-            android:id="@+id/btn_character"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_result"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/rounded_corner"
-            android:text="캐릭터로 변환"
+            android:text="결과"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:clickable="true"
             android:focusable="true"/>
-
+        <Button
+            android:id="@+id/btn_character"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:text="캐릭터 변환"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
-
 </LinearLayout>

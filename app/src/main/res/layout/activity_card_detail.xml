@@ -55,9 +55,8 @@
 
     <ScrollView
         android:layout_width="300dp"
-        android:layout_height="match_parent"
+        android:layout_height="230dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="30dp"
         android:background="@drawable/rounded_corner_line">
         <TextView
             android:id="@+id/cardDetail_flower_context"
@@ -68,5 +67,17 @@
             android:text="꽃 설명"
             android:textSize="18sp"/>
     </ScrollView>
+
+    <Button
+        android:id="@+id/cardDetail_btn_result"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_corner"
+        android:text="결과"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:clickable="true"
+        android:focusable="true"/>
 
 </LinearLayout>
