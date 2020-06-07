@@ -5,17 +5,17 @@ object ReLabel {
     fun relabel(fName: String): String {
 
         when(fName) {
-            "pink primrose" -> return "Oenothera_speciosa" // Oenothera_speciosa
-            "hard-leaved pocket orchid" -> return "Paphiopedilum_micranthum" // Paphiopedilum_micranthum
-            "canterbury bells" -> return "Campanula_medium" // Campanula_medium
-            "sweet pea" -> return "sweet_pea"
-            "english marigold" -> return "Calendula_officinalis" // Calendula_officinalis
-            "tiger lily" -> return "참나리" // 검색결과 없음
-            "moon orchid" -> return "Phalaenopsis_amabilis" // Phalaenopsis_amabilis
-            "bird of paradise" -> return "Strelitzia" // Strelitzia
-            "monkshood" -> return "Aconitum" // Aconitum
-            "globe thistle" -> return "Echinops" // Echinops
-            "snapdragon" -> return "Antirrhinum" // Antirrhinum
+            "pink primrose" -> return "Oenothera_speciosa" // 결과 이상함
+            "hard-leaved pocket orchid" -> return "Paphiopedilum_micranthum" // 확인
+            "canterbury bells" -> return "Campanula_medium" // 확인
+            "sweet pea" -> return "sweet_pea" // 확인
+            "english marigold" -> return "Calendula_officinalis" // 확인
+            "tiger lily" -> return "Lilium_catesbaei" // 확인
+            "moon orchid" -> return "Phalaenopsis_amabilis" // 확인
+            "bird of paradise" -> return "Strelitzia" // 확인
+            "monkshood" -> return "Aconitum" // 확인
+            "globe thistle" -> return "Echinops" // 확인
+            "snapdragon" -> return "Antirrhinum" // 확인
             "colt's foot" -> return "관동화" // 검색결과 없음
             "king protea" -> return "Protea_cynaroides" // Protea_cynaroides
             "spear thistle" -> return "Cirsium_vulgare" // Cirsium_vulgare

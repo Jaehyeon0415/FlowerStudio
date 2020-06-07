@@ -10,11 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.jaehyeon.flowerstudio.R
 
 class CharacterActivity : AppCompatActivity() {
 
     private var database: DatabaseReference = FirebaseDatabase.getInstance().reference
+    private var storage: StorageReference = FirebaseStorage.getInstance().reference
     private val user = FirebaseAuth.getInstance().currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +47,7 @@ class CharacterActivity : AppCompatActivity() {
         val btnCharacterSave = findViewById<Button>(R.id.btn_character_save)
         btnCharacterSave.setOnClickListener {
             // 도감 카드 추가
-            addCard(fName!!, fContext!!)
+            addCard(fName!!, fContext!!, bytes!!)
             Toast.makeText(this, "저장되었어요!", Toast.LENGTH_SHORT).show()
             finish()
         }
@@ -53,9 +56,7 @@ class CharacterActivity : AppCompatActivity() {
     /**
      *  생성된 카드 Firebase에 저장
      **/
-
-    private fun addCard(fName: String, fContext: String){
-
+    private fun addCard(fName: String, fContext: String, fImage: ByteArray) {
         val uid = user?.uid
         val myRef = database.child("card").push()
         val key = myRef.key
@@ -64,6 +65,14 @@ class CharacterActivity : AppCompatActivity() {
         myRef.child("id").setValue(key)
         myRef.child("title").setValue(fName)
         myRef.child("context").setValue(fContext)
+        myRef.child("image").setValue(key)
 
+        val uploadTask = storage.child(uid.toString()).child(key!!).putBytes(fImage)
+        uploadTask.addOnFailureListener {
+            println("Upload Failed!!")
+            Toast.makeText(this, "업로드에 실패했어요!", Toast.LENGTH_SHORT).show()
+        }.addOnSuccessListener {
+            println("Upload Success!!")
+        }
     }
 }

@@ -47,7 +47,7 @@ class CameraResultActivity : AppCompatActivity() {
         }
 
         // 위키피디아 검색
-        context = TaskClassifier().execute(search_text).get()
+        context = TaskClassifier().execute("Antirrhinum").get()
 
         flower_context.text = context
         flower_name.text = fLabel
@@ -96,8 +96,10 @@ class CameraResultActivity : AppCompatActivity() {
             val link_text = label[0]
             val link = "https://en.m.wikipedia.org/wiki/$link_text"
             val doc: org.jsoup.nodes.Document = Jsoup.connect(link).get()   // 링크로 크롤링
+
             // println(doc)
             // val element:Elements = doc.select("div[class=size_ct_v2]").select("p")
+
             val element:Elements = doc.select("div[class=mw-parser-output]").select("p")
             val ie1: ListIterator<org.jsoup.nodes.Element> = element.select("p").listIterator()
             var ts: String = "null"

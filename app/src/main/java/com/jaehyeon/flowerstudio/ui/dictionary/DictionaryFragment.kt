@@ -1,32 +1,29 @@
 package com.jaehyeon.flowerstudio.ui.dictionary
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.jaehyeon.flowerstudio.R
 import com.jaehyeon.flowerstudio.adapter.CardAdapter
 import com.jaehyeon.flowerstudio.adapter.CardAdapter.Companion.cardList
 import com.jaehyeon.flowerstudio.model.Card
-import kotlinx.android.synthetic.main.activity_card_detail.*
-import kotlinx.android.synthetic.main.fragment_dictionary.*
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
-import kotlinx.android.synthetic.main.fragment_dictionary.view.cardDetail_dictionary_toolbar_count
 
 
 class DictionaryFragment : Fragment() {
 
     private var database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private var myRef = database.reference
+    private var storageRef: StorageReference = FirebaseStorage.getInstance().reference
 
     override fun onCreateView(
             inflater: LayoutInflater,

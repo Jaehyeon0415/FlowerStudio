@@ -2,14 +2,20 @@ package com.jaehyeon.flowerstudio.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.jaehyeon.flowerstudio.ui.CardDetailActivity
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.jaehyeon.flowerstudio.R
 import com.jaehyeon.flowerstudio.model.Card
+import com.jaehyeon.flowerstudio.ui.CardDetailActivity
 import kotlinx.android.synthetic.main.item_card.view.*
+
 
 class CardAdapter(val context: Context, private val cardList: ArrayList<Card>):
     RecyclerView.Adapter<CardAdapter.Holder>() {
@@ -30,13 +36,12 @@ class CardAdapter(val context: Context, private val cardList: ArrayList<Card>):
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind (card: Card) {
+
+            val storageRef: StorageReference = FirebaseStorage.getInstance().reference
+            val pathRef = storageRef.child("${card.uid}/${card.image}")
+
             //itemView.
             itemView.setOnClickListener {
-//                // image 넘겨줌
-//                val bitmap = ((itemView.cardImage).drawable as BitmapDrawable).bitmap
-//                val stream = ByteArrayOutputStream()
-//                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-//                val image = stream.toByteArray()
 
                 itemView.context.startActivity(
                     Intent(itemView.context,
@@ -44,17 +49,24 @@ class CardAdapter(val context: Context, private val cardList: ArrayList<Card>):
                         .putExtra("cardTitle", card.title)
                         .putExtra("cardContext", card.context)
                         .putExtra("cardId", card.id)
-//                        .putExtra("cardWriter", card.writer)
-//                        .putExtra("cardPrice", card.price)
-//                        //.putExtra("cardImage", image)
-//                        .putExtra("cardCategory", card.category)
-//                        .putExtra("cID", card.id)
+                        .putExtra("uid", card.uid)
+                        .putExtra("cardImage", pathRef.toString())
                 )
             }
 
             itemView.item_text.text = card.title
-            //itemView.cardImage.setImageResource(card.image)
-            //itemView.cardID.text = card.id
+            pathRef.downloadUrl.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Glide 이용하여 이미지뷰에 로딩
+                    Glide.with(itemView.context)
+                        .load(task.result)
+                        .override(1024, 980)
+                        .into(itemView.item_image)
+                } else {
+                    // URL을 가져오지 못하면 토스트 메세지
+                    Toast.makeText(itemView.context, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
