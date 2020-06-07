@@ -43,12 +43,15 @@ class CameraResultActivity : AppCompatActivity() {
         if(fLabel == "unknown"){
             Toast.makeText(this, "꽃 인식 실패했어요!", Toast.LENGTH_SHORT).show()
             // btn_character.setBackgroundColor(getColor(R.color.gray))
-            flower_context.text = context
+            // flower_context.text = "꽃 인식에 실패했어요!"
         } else {
             // 위키피디아 검색
-            context = TaskClassifier().execute(search_text).get()
-            flower_context.text = context
+//            context = TaskClassifier().execute(search_text).get()
+//            flower_context.text = context
         }
+
+        context = TaskClassifier().execute(search_text).get()
+        flower_context.text = context
 
         flower_name.text = fLabel
 
@@ -75,7 +78,7 @@ class CameraResultActivity : AppCompatActivity() {
             if(fLabel == "unknown"){
                 Toast.makeText(this, "꽃 이미지로 변환을 시도해 주세요!", Toast.LENGTH_SHORT).show()
             } else {
-                val urlLink = Intent(Intent.ACTION_VIEW, Uri.parse("https://en.m.wikipedia.org/wiki/$search_text")) // "https://en.m.wikipedia.org/wiki/$search_text"
+                val urlLink = Intent(Intent.ACTION_VIEW, Uri.parse("https://en.m.wikipedia.org/wiki/$search_text"))
                 startActivity(urlLink)
             }
         }
@@ -110,9 +113,9 @@ class CameraResultActivity : AppCompatActivity() {
             val element:Elements = doc.select("div[class=mw-parser-output]").select("p")
             val ie1: ListIterator<org.jsoup.nodes.Element> = element.select("p").listIterator()
             var ts = "null"
-            while(ts == "null"){
-                ts = TranslationAPI.translation(ie1.next().text())
-            }
+//            while(ts == "null"){
+//                ts = TranslationAPI.translation(ie1.next().text())
+//            }
             return ts
         }
         override fun onPostExecute(result: String) {

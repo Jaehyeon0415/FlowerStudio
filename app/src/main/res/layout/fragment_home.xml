@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:text="TITLE"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:textColor="#000"
             android:layout_gravity="center"/>
     </androidx.appcompat.widget.Toolbar>
