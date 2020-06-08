@@ -1,15 +1,19 @@
 package com.jaehyeon.flowerstudio.adapter
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.jaehyeon.flowerstudio.CameraActivity
 import com.jaehyeon.flowerstudio.R
 import com.jaehyeon.flowerstudio.model.Card
 import com.jaehyeon.flowerstudio.ui.CardDetailActivity
@@ -39,17 +43,17 @@ class CardAdapter(val context: Context, private val cardList: ArrayList<Card>):
             val storageRef: StorageReference = FirebaseStorage.getInstance().reference
             val pathRef = storageRef.child("${card.uid}/${card.image}")
 
-            //itemView.
+            //itemView
             itemView.setOnClickListener {
-                itemView.context.startActivity(
-                    Intent(itemView.context, CardDetailActivity::class.java)
-                        .putExtra("cardTitle", card.title)
-                        .putExtra("cardContext", card.context)
-                        .putExtra("cardId", card.id)
-                        .putExtra("uid", card.uid)
-                        .putExtra("cardImage", pathRef.toString())
-                        .putExtra("url", card.url)
-                )
+                val intent = Intent(itemView.context, CardDetailActivity::class.java)
+                    .putExtra("cardTitle", card.title)
+                    .putExtra("cardContext", card.context)
+                    .putExtra("cardId", card.id)
+                    .putExtra("uid", card.uid)
+                    .putExtra("cardImage", pathRef.toString())
+                    .putExtra("url", card.url)
+                val bundle: Bundle = ActivityOptions.makeCustomAnimation(itemView.context, R.anim.slide_in_right, R.anim.slide_out_left).toBundle()
+                ActivityCompat.startActivity(itemView.context, intent, bundle)
             }
 
             itemView.item_text.text = card.title

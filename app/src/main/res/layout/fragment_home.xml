@@ -42,6 +42,7 @@
         android:layout_gravity="center"
         android:background="@drawable/rounded_corner"
         android:text="사진 촬영"
+        android:textColor="@color/white"
         android:clickable="true"
         android:focusable="true"
         tools:context=".CameraResultActivity"/>

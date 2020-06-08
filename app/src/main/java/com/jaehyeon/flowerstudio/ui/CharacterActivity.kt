@@ -42,6 +42,7 @@ class CharacterActivity : AppCompatActivity() {
         val btnChCancel = findViewById<Button>(R.id.btn_chCancel)
         btnChCancel.setOnClickListener {
             Toast.makeText(this, "취소가 되었어요!", Toast.LENGTH_SHORT).show()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             finish()
         }
 
@@ -51,6 +52,7 @@ class CharacterActivity : AppCompatActivity() {
             // 도감 카드 추가
             addCard(fName!!, fContext!!, bytes!!, url!!)
             Toast.makeText(this, "저장되었어요!", Toast.LENGTH_SHORT).show()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             finish()
         }
     }

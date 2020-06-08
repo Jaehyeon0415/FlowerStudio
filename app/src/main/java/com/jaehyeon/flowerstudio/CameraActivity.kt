@@ -57,6 +57,7 @@ class CameraActivity : AppCompatActivity() {
                             .putExtra("check", "camera")
 
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                         finish()
                     }
                 }).run()
@@ -96,4 +97,11 @@ class CameraActivity : AppCompatActivity() {
         cameraView.stop()
         super.onPause()
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        finish()
+    }
+
 }

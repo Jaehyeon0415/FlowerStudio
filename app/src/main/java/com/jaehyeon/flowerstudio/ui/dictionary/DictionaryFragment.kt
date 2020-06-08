@@ -10,15 +10,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.jaehyeon.flowerstudio.R
 import com.jaehyeon.flowerstudio.adapter.CardAdapter
 import com.jaehyeon.flowerstudio.adapter.CardAdapter.Companion.cardList
 import com.jaehyeon.flowerstudio.model.Card
-import kotlinx.android.synthetic.main.fragment_dictionary.*
 import kotlinx.android.synthetic.main.fragment_dictionary.view.*
-import kotlinx.android.synthetic.main.fragment_dictionary.view.recyclerView
 
 
 class DictionaryFragment : Fragment() {
@@ -68,9 +64,7 @@ class DictionaryFragment : Fragment() {
             override fun onCancelled(p0: DatabaseError) {}
         })
 
-
         view.recyclerView.adapter = mCardAdapter
-
         val numberOfColumns = 3
         val lm = GridLayoutManager(view.context, numberOfColumns)
         view.recyclerView.layoutManager = lm

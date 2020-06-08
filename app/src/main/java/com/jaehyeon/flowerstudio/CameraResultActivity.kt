@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.jaehyeon.flowerstudio.controller.ConvertKo
 import com.jaehyeon.flowerstudio.controller.ReLabel
-import com.jaehyeon.flowerstudio.controller.TranslationAPI
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 import java.util.*
@@ -95,6 +94,7 @@ class CameraResultActivity : AppCompatActivity() {
                     .putExtra("flowerImg", bytes)
                     .putExtra("url", search_text)
                 )
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 finish()
 //            }
         }
@@ -132,4 +132,11 @@ class CameraResultActivity : AppCompatActivity() {
             "Image of $title"
         )
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        finish()
+    }
+
 }

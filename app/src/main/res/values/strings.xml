@@ -12,4 +12,10 @@
     <!--  loading text  -->
     <string name="loading_text1">과연 이 꽃의 이름은?!</string>
     <string name="loading_text2">과연 어떤 캐릭터가 나올까요?!</string>
+
+    <string name="dialog_title">삭제하시겠습니까?</string>
+    <string name="dialog_subtitle">삭제하면 데이터를 복구할 수 없습니다.</string>
+    <string name="dialog_cancle">취소</string>
+    <string name="dialog_accept">삭제</string>
+
 </resources>

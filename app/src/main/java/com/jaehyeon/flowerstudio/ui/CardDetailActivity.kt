@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -86,9 +87,22 @@ class CardDetailActivity : AppCompatActivity() {
             true
         }
         R.id.delete -> {
-            delete()
-            Toast.makeText(this, "삭제되었어요!", Toast.LENGTH_SHORT).show()
-            finish()
+
+            MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_App_MaterialAlertDialog)
+                .setTitle(resources.getString(R.string.dialog_title))
+                .setMessage(resources.getString(R.string.dialog_subtitle))
+                .setNegativeButton(resources.getString(R.string.dialog_cancle)) { dialog, which ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton(resources.getString(R.string.dialog_accept)) { dialog, which ->
+                    delete()
+                    Toast.makeText(this, "삭제되었어요!", Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
+                    finish()
+                }
+                .show()
+
+            // delete()
             true
         }
         else -> {
@@ -105,4 +119,11 @@ class CardDetailActivity : AppCompatActivity() {
             throw RuntimeException(it)
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        finish()
+    }
+
 }

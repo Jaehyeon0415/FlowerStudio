@@ -72,6 +72,7 @@ class LoadingActivity : AppCompatActivity() {
                     .putExtra("flowerImg", fImage)
                     .putExtra("url", url)
                 )
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 finish()
             }else{
                 startActivity(Intent(this, CameraResultActivity::class.java)
@@ -79,6 +80,7 @@ class LoadingActivity : AppCompatActivity() {
                     //.putExtra("flowerContext", context)
                     .putExtra("flowerImg", fImage)
                 )
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 finish()
             }
         }, LOADING_TIME_OUT)
@@ -100,9 +102,9 @@ class LoadingActivity : AppCompatActivity() {
             try {
                 classifier = TensorFlowFlowerClassifier.create(
                     assets,
-                    MODEL_PATH,
-                    LABEL_PATH,
-                    INPUT_SIZE
+                    MODEL_PATH, // model.tflite
+                    LABEL_PATH, // labels.txt
+                    INPUT_SIZE  // 299x299
                 )
             } catch (e: Exception) {
                 throw RuntimeException("Error initializing TensorFlow!", e)

@@ -73,24 +73,11 @@ class LoginActivity: AppCompatActivity() {
         }
     }
 
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if(account != null){
-            val currentUser = firebaseAuth.currentUser
-            updateUI(currentUser)
-        }else{
-            updateUI(null)
-        }
-    }
-
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         Log.d("FirebaseGoogle", "firebaseAuthWithGoogle:" + acct.id!!)
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        firebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     //Log.d("LoginSuccess", "signInWithCredential:success")
@@ -106,8 +93,19 @@ class LoginActivity: AppCompatActivity() {
             }
     }
 
-    private fun updateUI(user: FirebaseUser?) {
+    public override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        if(account != null){
+            val currentUser = firebaseAuth.currentUser
+            updateUI(currentUser)
+        }else{
+            updateUI(null)
+        }
+    }
 
+    private fun updateUI(user: FirebaseUser?) {
         if(user != null) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
