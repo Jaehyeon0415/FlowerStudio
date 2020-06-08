@@ -30,6 +30,6 @@
         android:id="@+id/mainProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:indeterminateTint="@color/black"/>
+        android:indeterminateTint="@color/pink"/>
 
 </LinearLayout>

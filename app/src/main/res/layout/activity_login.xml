@@ -9,30 +9,30 @@
     tools:context="com.jaehyeon.flowerstudio.LoginActivity"
     android:background="@color/white">
 
-    <TextView
-        android:id="@+id/login_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginHorizontal="12dp"
-        android:text="@string/app_name"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:gravity="center"/>
-
     <ImageView
         android:id="@+id/login_image"
         android:layout_width="200sp"
         android:layout_height="200sp"
         android:layout_gravity="center"
-        android:layout_marginVertical="80sp"
+        android:layout_marginTop="80dp"
         android:src="@mipmap/ic_launcher_round"/>
+
+    <TextView
+        android:id="@+id/login_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/app_name"
+        android:textSize="20sp"
+        android:textColor="#a3a2a2"
+        android:gravity="center"/>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/login_google"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
         android:layout_marginHorizontal="60dp"/>
 
 <!--    <Button-->

@@ -76,7 +76,7 @@
         android:background="@drawable/rounded_corner"
         android:text="결과"
         android:textColor="@color/white"
-        android:textSize="12sp"
+        android:textSize="20sp"
         android:clickable="true"
         android:focusable="true"/>
 
