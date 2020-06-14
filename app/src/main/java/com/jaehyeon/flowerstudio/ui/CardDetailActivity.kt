@@ -61,7 +61,7 @@ class CardDetailActivity : AppCompatActivity() {
                     .into(image)
             } else {
                 // URL을 가져오지 못하면 토스트 메세지
-                Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "조금 있다 시도해 주세요!", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -71,7 +71,6 @@ class CardDetailActivity : AppCompatActivity() {
             val urlLink = Intent(Intent.ACTION_VIEW, Uri.parse("https://en.m.wikipedia.org/wiki/$search_text"))
             startActivity(urlLink)
         }
-
     }
 
     // 툴바 옵션 생성
@@ -87,7 +86,6 @@ class CardDetailActivity : AppCompatActivity() {
             true
         }
         R.id.delete -> {
-
             MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle(resources.getString(R.string.dialog_title))
                 .setMessage(resources.getString(R.string.dialog_subtitle))
@@ -101,8 +99,6 @@ class CardDetailActivity : AppCompatActivity() {
                     finish()
                 }
                 .show()
-
-            // delete()
             true
         }
         else -> {

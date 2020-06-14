@@ -53,9 +53,7 @@ class LoadingActivity : AppCompatActivity() {
         val npb = findViewById<NumberProgressBar>(R.id.number_progress_bar)
         val timer = Timer()
         npb.setOnProgressBarListener(OnProgressBarListener { current, max ->
-            if (current == max) {
-                timer.cancel()
-            }
+            if (current == max) { timer.cancel() }
         })
         timer.schedule(object : TimerTask() {
             override fun run() {

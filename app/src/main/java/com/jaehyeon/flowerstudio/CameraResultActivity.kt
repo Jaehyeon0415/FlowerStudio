@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.jaehyeon.flowerstudio.controller.ConvertKo
 import com.jaehyeon.flowerstudio.controller.ReLabel
+import com.jaehyeon.flowerstudio.controller.TranslationAPI
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 import java.util.*
@@ -37,26 +38,22 @@ class CameraResultActivity : AppCompatActivity() {
         val fName: String? = intent.getStringExtra("flowerName")
 
         val search_text: String = ReLabel.relabel(fName!!)
-        val fLabel: String = ConvertKo.convertKor(fName!!)
+        val fLabel: String = ConvertKo.convertKor(fName)
 
         if(fLabel == "unknown"){
             Toast.makeText(this, "꽃 인식 실패했어요!", Toast.LENGTH_SHORT).show()
-            // btn_character.setBackgroundColor(getColor(R.color.gray))
-            // flower_context.text = "꽃 인식에 실패했어요!"
+            flower_context.text = "꽃 인식에 실패했어요!"
         } else {
             // 위키피디아 검색
-//            context = TaskClassifier().execute(search_text).get()
-//            flower_context.text = context
+            context = TaskSearching().execute(search_text).get()
+            flower_context.text = context
         }
-
-        context = TaskClassifier().execute(search_text).get()
-        flower_context.text = context
 
         flower_name.text = fLabel
 
         val bytes: ByteArray? = intent.getByteArrayExtra("flowerImg")
         val cameraImage = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
-        val bImage = Bitmap.createScaledBitmap(cameraImage!!, 1440, 2560, false)
+        val bImage = Bitmap.createScaledBitmap(cameraImage!!, 960, 1280, false) // 960 1280
         image_view.setImageBitmap(bImage)   // 사진 설정
 
         // 취소 버튼 이벤트
@@ -84,9 +81,9 @@ class CameraResultActivity : AppCompatActivity() {
 
         // 캐릭터화 버튼 이벤트
         btn_character.setOnClickListener {
-//            if(fLabel == "unknown"){
-//                Toast.makeText(this, "꽃 이미지로 변환해 주세요!", Toast.LENGTH_SHORT).show()
-//            } else {
+            if(fLabel == "unknown"){
+                Toast.makeText(this, "꽃 이미지로 변환해 주세요!", Toast.LENGTH_SHORT).show()
+            } else {
                 startActivity(Intent(this, LoadingActivity::class.java)
                     .putExtra("character", "character")
                     .putExtra("flowerName", fLabel)
@@ -96,11 +93,11 @@ class CameraResultActivity : AppCompatActivity() {
                 )
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 finish()
-//            }
+            }
         }
     }
 
-    private class TaskClassifier : AsyncTask<String, Void, String>() {
+    private class TaskSearching : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
         }
@@ -113,9 +110,9 @@ class CameraResultActivity : AppCompatActivity() {
             val element:Elements = doc.select("div[class=mw-parser-output]").select("p")
             val ie1: ListIterator<org.jsoup.nodes.Element> = element.select("p").listIterator()
             var ts = "null"
-//            while(ts == "null"){
-//                ts = TranslationAPI.translation(ie1.next().text())
-//            }
+            while(ts == "null"){
+                ts = TranslationAPI.translation(ie1.next().text())
+            }
             return ts
         }
         override fun onPostExecute(result: String) {

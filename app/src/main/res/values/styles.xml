@@ -13,7 +13,7 @@
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimaryDark">#f7bcbc</item>
+        <item name="colorPrimaryDark">#cba4a4</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
 <!--        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>-->

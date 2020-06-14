@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_dictionary,
             R.id.navigation_profile))
 
-        //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 }

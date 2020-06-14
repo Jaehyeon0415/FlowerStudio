@@ -10,9 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.jaehyeon.flowerstudio.CameraActivity
-import com.jaehyeon.flowerstudio.CameraResultActivity
 import com.jaehyeon.flowerstudio.R
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
@@ -34,7 +32,6 @@ class HomeFragment : Fragment() {
         }
 
         val bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.flower)
-//        val scaled: Bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true)
         view.home_image.setImageBitmap(bitmap)
         return view
     }

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.jaehyeon.flowerstudio.CameraActivity
 import com.jaehyeon.flowerstudio.R
 import com.jaehyeon.flowerstudio.model.Card
 import com.jaehyeon.flowerstudio.ui.CardDetailActivity
@@ -37,7 +36,6 @@ class CardAdapter(val context: Context, private val cardList: ArrayList<Card>):
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         fun bind (card: Card) {
 
             val storageRef: StorageReference = FirebaseStorage.getInstance().reference
@@ -64,7 +62,7 @@ class CardAdapter(val context: Context, private val cardList: ArrayList<Card>):
                     // Glide 이용하여 이미지뷰에 로딩
                     Glide.with(itemView.context)
                         .load(task.result)
-                        .override(1024, 980)
+                        .override(980, 1024)
                         .into(itemView.item_image)
                 } else {
                     // URL을 가져오지 못하면 토스트 메세지

@@ -9,23 +9,13 @@
     tools:context=".ui.CharacterActivity"
     android:background="@color/white">
 
-    <TextView
-        android:id="@+id/ch_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="완전 신기해요!!"
-        android:textColor="@color/pink"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_marginTop="50sp"
-        android:layout_gravity="center"/>
     <ImageView
         android:id="@+id/ch_image_view"
         android:src="@drawable/ic_camera_black_24dp"
         android:scaleType="fitXY"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/rounded_corner_white"/>
 
     <TextView

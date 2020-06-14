@@ -23,16 +23,11 @@ class LoginActivity: AppCompatActivity() {
     //google client
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    //private const val TAG = "GoogleActivity"
     private val RC_SIGN_IN = 99
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-//        login_skip.setOnClickListener{
-//            setContentView(R.layout.activity_main)
-//        }
 
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -60,7 +55,6 @@ class LoginActivity: AppCompatActivity() {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
-
                 if (account != null) {
                     firebaseAuthWithGoogle(account)
                 }
@@ -78,19 +72,19 @@ class LoginActivity: AppCompatActivity() {
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    //Log.d("LoginSuccess", "signInWithCredential:success")
-                    val user = firebaseAuth.currentUser
-                    updateUI(user)
-                    Toast.makeText(this, "로그인에 성공하셨어요~", Toast.LENGTH_SHORT).show()
-                } else {
-                    // If sign in fails, display a message to the user.
-                    //Log.w("LoginFailed", "signInWithCredential:failure", task.exception)
-                    Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_LONG).show()
-                    updateUI(null)
-                }
+            if (task.isSuccessful) {
+                // Sign in success, update UI with the signed-in user's information
+                //Log.d("LoginSuccess", "signInWithCredential:success")
+                val user = firebaseAuth.currentUser
+                updateUI(user)
+                Toast.makeText(this, "로그인에 성공하셨어요~", Toast.LENGTH_SHORT).show()
+            } else {
+                // If sign in fails, display a message to the user.
+                //Log.w("LoginFailed", "signInWithCredential:failure", task.exception)
+                Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_LONG).show()
+                updateUI(null)
             }
+        }
     }
 
     public override fun onStart() {
@@ -110,7 +104,7 @@ class LoginActivity: AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }else{
-            Toast.makeText(this, "로그인에 실패하였습니다.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "로그인을 하세요!", Toast.LENGTH_LONG).show()
         }
     }
 

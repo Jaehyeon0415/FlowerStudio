@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.jaehyeon.flowerstudio.R
+import java.lang.Exception
 
 class CharacterActivity : AppCompatActivity() {
 
@@ -64,14 +65,16 @@ class CharacterActivity : AppCompatActivity() {
         val uid = user?.uid
         val myRef = database.child("card").push()
         val key = myRef.key
-
-        myRef.child("uid").setValue(uid.toString())
-        myRef.child("id").setValue(key)
-        myRef.child("title").setValue(fName)
-        myRef.child("context").setValue(fContext)
-        myRef.child("image").setValue(key)
-        myRef.child("url").setValue(url)
-
+        try {
+            myRef.child("uid").setValue(uid.toString())
+            myRef.child("id").setValue(key)
+            myRef.child("title").setValue(fName)
+            myRef.child("context").setValue(fContext)
+            myRef.child("image").setValue(key)
+            myRef.child("url").setValue(url)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         val uploadTask = storage.child(uid.toString()).child(key!!).putBytes(fImage)
         uploadTask.addOnFailureListener {
             println("Upload Failed!!")

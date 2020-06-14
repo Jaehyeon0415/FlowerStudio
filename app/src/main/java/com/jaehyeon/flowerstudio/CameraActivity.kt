@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -46,16 +47,17 @@ class CameraActivity : AppCompatActivity() {
                 Thread(Runnable {
                     cameraView.setFocus(CameraKit.Constants.FOCUS_CONTINUOUS)
                     if(cameraKitImage.bitmap != null) {
+                        val width: Int = cameraKitImage.bitmap.width
+                        val height: Int = cameraKitImage.bitmap.height
+                        Log.d("123123 scale!", "$width $height")
                         val bitmap = Bitmap.createScaledBitmap(cameraKitImage.bitmap, 299, 299, false)
                         val stream = ByteArrayOutputStream()
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                         val fImage = stream.toByteArray()
-
                         val intent = Intent(this@CameraActivity, LoadingActivity::class.java)
                         intent
                             .putExtra("flowerImg", fImage)
                             .putExtra("check", "camera")
-
                         startActivity(intent)
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                         finish()
@@ -103,5 +105,4 @@ class CameraActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         finish()
     }
-
 }

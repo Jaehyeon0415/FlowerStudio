@@ -1,9 +1,7 @@
 package com.jaehyeon.flowerstudio.controller
 
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
-import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
@@ -14,8 +12,8 @@ import java.net.URLEncoder
 object TranslationAPI {
     @JvmStatic
     fun translation(context: String) : String {
-        val clientId = "L5EZjK5rwxf4lPzH5pC2" //애플리케이션 클라이언트 아이디값";
-        val clientSecret = "_fhNankAuW" //애플리케이션 클라이언트 시크릿값";
+        val clientId = "tI2gWZCF7wz5BKASQJcF" //애플리케이션 클라이언트 아이디값";
+        val clientSecret = "ZgUyfVWPlM" //애플리케이션 클라이언트 시크릿값";
         val apiURL = "https://openapi.naver.com/v1/papago/n2mt"
         val text: String
         text = try {
@@ -44,7 +42,7 @@ object TranslationAPI {
     ): String {
         val con = connect(apiUrl)
         val postParams =
-            "source=en&target=ko&text=$text" //원본언어: 한국어 (ko) -> 목적언어: 영어 (en)
+            "source=en&target=ko&text=$text" // 원본언어: 영어 (en) -> 목적언어: 한국어 (ko)
         return try {
             con.requestMethod = "POST"
             for ((key, value) in requestHeaders) {
