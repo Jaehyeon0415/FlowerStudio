@@ -12,8 +12,8 @@ import java.net.URLEncoder
 object TranslationAPI {
     @JvmStatic
     fun translation(context: String) : String {
-        val clientId = "tI2gWZCF7wz5BKASQJcF" //애플리케이션 클라이언트 아이디값";
-        val clientSecret = "ZgUyfVWPlM" //애플리케이션 클라이언트 시크릿값";
+        val clientId = "VXMYF9RtBmW48r729WAd" //애플리케이션 클라이언트 아이디값";
+        val clientSecret = "pdP6Fm05jW" //애플리케이션 클라이언트 시크릿값";
         val apiURL = "https://openapi.naver.com/v1/papago/n2mt"
         val text: String
         text = try {

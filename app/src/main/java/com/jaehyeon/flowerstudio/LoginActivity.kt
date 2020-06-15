@@ -104,7 +104,7 @@ class LoginActivity: AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }else{
-            Toast.makeText(this, "로그인을 하세요!", Toast.LENGTH_LONG).show()
+            // Toast.makeText(this, "로그인을 하세요!", Toast.LENGTH_LONG).show()
         }
     }
 

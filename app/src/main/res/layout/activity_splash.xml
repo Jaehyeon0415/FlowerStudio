@@ -10,11 +10,12 @@
 
     <ImageView
         android:id="@+id/splashImage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="150dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="100dp"
         android:layout_gravity="center"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:scaleType="fitXY"
+        android:src="@drawable/flowerstudio_logo"/>
 
     <TextView
         android:id="@+id/splashText"
@@ -22,9 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="50sp"
         android:gravity="center"
-        android:textSize="26sp"
+        android:textSize="22sp"
         android:text="@string/app_name"
-        android:textColor="#000" />
+        android:textColor="#a3a2a2" />
 
     <ProgressBar
         android:id="@+id/mainProgress"

@@ -2,8 +2,6 @@ package com.jaehyeon.flowerstudio.ui.home
 
 import android.app.ActivityOptions
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,8 +29,6 @@ class HomeFragment : Fragment() {
             ActivityCompat.startActivity(view.context, intent, bundle)
         }
 
-        val bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.flower)
-        view.home_image.setImageBitmap(bitmap)
         return view
     }
 }

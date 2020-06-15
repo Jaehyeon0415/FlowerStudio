@@ -1,5 +1,6 @@
 package com.jaehyeon.flowerstudio.ui
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Button
@@ -13,7 +14,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.jaehyeon.flowerstudio.R
-import java.lang.Exception
+import java.io.ByteArrayOutputStream
+
 
 class CharacterActivity : AppCompatActivity() {
 
@@ -31,11 +33,17 @@ class CharacterActivity : AppCompatActivity() {
         val bytes: ByteArray? = intent.getByteArrayExtra("flowerImg")
         val url = intent.getStringExtra("url")
 
-        val cameraImage = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
+//        val cameraImage = bytes?.size?.let { BitmapFactory.decodeByteArray(bytes, 0, it) }
         val ch_image_view = findViewById<ImageView>(R.id.ch_image_view)
         val ch_flower_name = findViewById<TextView>(R.id.ch_flower_name)
 
         // 이미지와 이름 설정
+        val cameraImage = BitmapFactory.decodeResource(resources, R.drawable.flower_charater_1)
+
+        val stream = ByteArrayOutputStream()
+        cameraImage.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        val fImage = stream.toByteArray()
+
         ch_image_view.setImageBitmap(cameraImage)
         ch_flower_name.text = fName
 
@@ -51,7 +59,7 @@ class CharacterActivity : AppCompatActivity() {
         val btnCharacterSave = findViewById<Button>(R.id.btn_character_save)
         btnCharacterSave.setOnClickListener {
             // 도감 카드 추가
-            addCard(fName!!, fContext!!, bytes!!, url!!)
+            addCard(fName!!, fContext!!, fImage, url!!)
             Toast.makeText(this, "저장되었어요!", Toast.LENGTH_SHORT).show()
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             finish()
